@@ -18,7 +18,7 @@ namespace Routing.Silverlight.Address_Validation
 {
     public partial class GeoSearchPopup : UserControl
     {
-        public Search_LocationViewModel ViewModel;
+        public Search_LocationViewModel ViewModel { get; protected set; }
 
         //public GeoSearchPopup(Search_LocationViewModel viewModel)
         //{
@@ -33,10 +33,10 @@ namespace Routing.Silverlight.Address_Validation
             DataContext =   ViewModel = new Search_LocationViewModel();
         }
 
-        public void Initialize(string searchAddress)
-        {
-            ViewModel.Initialize(searchAddress);
-        }
+        //public void Initialize(string searchAddress)
+        //{
+        //    ViewModel.Initialize(searchAddress);
+        //}
 
 
 

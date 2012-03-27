@@ -171,11 +171,28 @@ namespace Routing.Silverlight.Models
         Address_Validation_Helper validator;
         public void F2_Location(LocationViewModel sender, Panel panel, bool silent, string text)
         {
+           
             Validating_Location = sender.Destination;
             validator = new Address_Validation_Helper(panel);
-            validator.Validate_Address(silent, text);
+            validator.Validate_Address(silent, text).ContinueWith(c => 
+            {
+                if (c.IsCanceled)
+                    validator.Manually_Validate_Address(text).ContinueWith(v => { Validate(v.Result); });
+                else
+                    Validate(c.Result);
+            });
         }
 
+        protected void Validate(Address_Validated result)
+        {
+            System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                Validating_Location.Location = result.Location;
+                Validating_Location.Resolved_Address = result.Address;
+                Validating_Location.Search_Address = result.Address.FormattedAddress;
+                Validating_Location.Validate();
+            });
+        }
 
 
         public void Carica()

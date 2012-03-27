@@ -9,6 +9,7 @@ using Silverlight.Common.Maps.GeocodeService;
 
 namespace Routing.Silverlight.Address_Validation
 {
+    /*
     public class Automatic_Address_Validation_Service
     {
         protected static HashSet<object> Locks { get; set; }
@@ -48,7 +49,7 @@ namespace Routing.Silverlight.Address_Validation
 
     
 
-    }
+    }*/
 
 
 

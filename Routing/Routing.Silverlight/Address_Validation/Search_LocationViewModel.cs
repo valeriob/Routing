@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using maps = Silverlight.Common.Maps;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 
 namespace Routing.Silverlight.Address_Validation
@@ -80,7 +81,7 @@ namespace Routing.Silverlight.Address_Validation
             //        Debug.WriteLine(s.Count);
             //    });
 
-            MessageBus.Current.Listen<Manually_Validate_Address>().Subscribe(Manually_Validate_Address);
+            //MessageBus.Current.Listen<Manually_Validate_Address>().Subscribe(Manually_Validate_Address);
         }
         protected void Find_Address(Location location)
         {
@@ -115,13 +116,27 @@ namespace Routing.Silverlight.Address_Validation
             Search_Address = searchAddress;
         }
 
+        TaskCompletionSource<Address_Validated> Task;
+        public Task<Address_Validated> Search(string searchAddress)
+        {
+            Task = new TaskCompletionSource<Address_Validated>();
+
+            return Task.Task;
+        }
+
+       
+
 
 
         public void Confirm_Position()
         {
             PositionConfirmed = true;
+            var validated = new Address_Validated(SelectedResult, Serving);
+
             if (Serving != null && SelectedResult != null)
-                MessageBus.Current.SendMessage(new Address_Validated(SelectedResult, Serving));
+                MessageBus.Current.SendMessage(validated);
+
+            Task.TrySetResult(validated);
         }
 
         public void Cancel()
@@ -129,6 +144,8 @@ namespace Routing.Silverlight.Address_Validation
             PositionConfirmed = false;
             if (Serving != null)
                 MessageBus.Current.SendMessage(new Validation_Canceled(Serving));
+
+            Task.TrySetCanceled();
         }
 
         protected void Sanitize_Parameters()

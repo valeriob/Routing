@@ -20,7 +20,7 @@ namespace Routing.Silverlight
         public App()
         {
             //Use_Case_Manager.Init();
-            Automatic_Address_Validation_Service.Init();
+            //Automatic_Address_Validation_Service.Init();
             RoutingViewModel.Instance.Login("users/1");
 
             this.Startup += this.Application_Startup;
