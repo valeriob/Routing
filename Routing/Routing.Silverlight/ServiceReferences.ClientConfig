@@ -71,10 +71,10 @@
             <endpoint address="http://localhost:44841/Services/SimulationService.svc"
                 binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_ISimulationService"
                 contract="SimulationService.ISimulationService" name="BasicHttpBinding_ISimulationService" />
-            <endpoint address="http://localhost/Routing/Services/References.svc"
+            <endpoint address="http://localhost:44841/Services/References.svc"
                 binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IReferences"
                 contract="ServiceReferences.IReferences" name="BasicHttpBinding_IReferences" />
-            <endpoint address="http://localhost/Routing/Services/Scenario.svc"
+            <endpoint address="http://localhost:44841/Services/Scenario.svc"
                 binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IScenario"
                 contract="ScenarioService.IScenario" name="BasicHttpBinding_IScenario" />
         </client>

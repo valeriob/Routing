@@ -31,10 +31,14 @@
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <LinkedServerProject>
     </LinkedServerProject>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -346,6 +350,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Silverlight.Common.Maps\Silverlight.Common.Maps.csproj">
+      <Project>{4B9ABD90-B36C-43A7-BE99-E9E4ED467EEE}</Project>
+      <Name>Silverlight.Common.Maps</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Silverlight.Common\Silverlight.Common.csproj">
       <Project>{A819237E-C1D6-4B53-8BE7-ECDEA13BF51C}</Project>
       <Name>Silverlight.Common</Name>

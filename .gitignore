@@ -5,6 +5,11 @@
 *.suo
 *.user
 *.sln.docstates
+Local.*
+*.vsmdi
+*.testsettings
+*.cache
+
 
 # Build results
 [Dd]ebug/
