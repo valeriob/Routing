@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="920b14de-263c-4e3a-a153-10508ca039b4" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost/Routing/Services/Scenario.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Scenario.xsd" MetadataType="Schema" ID="6b6a7d5c-683f-4640-ab88-7424d59f6f1a" SourceId="1" SourceUrl="http://localhost/Routing/Services/Scenario.svc?xsd=xsd1" />
+    <MetadataFile FileName="Scenario1.xsd" MetadataType="Schema" ID="517feb05-e68c-4ac9-8081-8c53d3cc765d" SourceId="1" SourceUrl="http://localhost/Routing/Services/Scenario.svc?xsd=xsd0" />
+    <MetadataFile FileName="Scenario.wsdl" MetadataType="Wsdl" ID="ba07fa13-7266-456f-9eb4-1dc4f25de0d8" SourceId="1" SourceUrl="http://localhost/Routing/Services/Scenario.svc?wsdl" />
+    <MetadataFile FileName="Scenario2.xsd" MetadataType="Schema" ID="299af4f3-72eb-4d23-a9a4-d00b8bdc1277" SourceId="1" SourceUrl="http://localhost/Routing/Services/Scenario.svc?xsd=xsd3" />
+    <MetadataFile FileName="Scenario3.xsd" MetadataType="Schema" ID="4d820926-e071-42b1-9c28-ae170a332d08" SourceId="1" SourceUrl="http://localhost/Routing/Services/Scenario.svc?xsd=xsd2" />
+    <MetadataFile FileName="Scenario4.xsd" MetadataType="Schema" ID="8e73704d-3ed6-4540-9cfd-4648bc8a8d9c" SourceId="1" SourceUrl="http://localhost/Routing/Services/Scenario.svc?xsd=xsd4" />
+    <MetadataFile FileName="Scenario.disco" MetadataType="Disco" ID="97c32d49-b866-42d3-ae23-690c67d01894" SourceId="1" SourceUrl="http://localhost/Routing/Services/Scenario.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

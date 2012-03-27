@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="aa4cb4d4-bb77-4c83-a9b8-a572abbd791f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:44841/Services/SimulationService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="SimulationService1.xsd" MetadataType="Schema" ID="50e8e9e6-e417-4795-9236-7f2d6a815b66" SourceId="1" SourceUrl="http://localhost:44841/Services/SimulationService.svc?xsd=xsd2" />
+    <MetadataFile FileName="SimulationService11.xsd" MetadataType="Schema" ID="587eb460-f7ae-4983-9e00-ae1bd490a5c6" SourceId="1" SourceUrl="http://localhost:44841/Services/SimulationService.svc?xsd=xsd1" />
+    <MetadataFile FileName="SimulationService.xsd" MetadataType="Schema" ID="8cb51113-7529-4d29-8b94-e56ba4084259" SourceId="1" SourceUrl="http://localhost:44841/Services/SimulationService.svc?xsd=xsd0" />
+    <MetadataFile FileName="SimulationService.disco" MetadataType="Disco" ID="19e0d6eb-52f5-4e13-8f63-79c36225dc15" SourceId="1" SourceUrl="http://localhost:44841/Services/SimulationService.svc?disco" />
+    <MetadataFile FileName="SimulationService.wsdl" MetadataType="Wsdl" ID="4fe62d4d-2e0a-4af8-a8dc-bcc4a1d8d37a" SourceId="1" SourceUrl="http://localhost:44841/Services/SimulationService.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="Silverlight.Common.Maps.Controls.LocationControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maps="clr-namespace:Microsoft.Maps.MapControl;assembly=Microsoft.Maps.MapControl"
+    xmlns:mapsCommon="clr-namespace:Microsoft.Maps.MapControl;assembly=Microsoft.Maps.MapControl.Common"
+    xmlns:interact="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:converters="clr-namespace:Silverlight.Common.Maps.Converters"
+    xmlns:myControls="clr-namespace:Silverlight.Common.Maps"
+    mc:Ignorable="d"
+    d:DesignHeight="452" d:DesignWidth="450" MinHeight="302">
+    <UserControl.Resources>
+        <converters:BooleanToVisibility x:Key="BooleanToVisibility" />
+        <converters:StringToCredentialsProvider x:Key="StringToCredentialsProvider" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <maps:Map Grid.Row="0" MinHeight="300" MinWidth="300"  x:Name="map" Mode="Road" LogoVisibility="Collapsed"  
+                    CopyrightVisibility="Collapsed" NavigationVisibility="Visible" ScaleVisibility="Visible"
+                    Center="{Binding Location}"
+                    CredentialsProvider="{Binding GeocodeServiceCredentials, Converter={StaticResource StringToCredentialsProvider}}"  >
+                <myControls:DraggablePushpin x:Name="draggablePushpin" Location="{Binding Location, Mode=TwoWay}" >
+                    <ToolTipService.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="{Binding CurrentLocation.Address.FormattedAddress}"/>
+                            <TextBlock Text="{Binding CurrentLocation.Locations[0]}"/>
+                        </StackPanel>
+                    </ToolTipService.ToolTip>
+                </myControls:DraggablePushpin>
+            </maps:Map>
+            <Grid Grid.Row="1" x:Name="SearchRow" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Name="textBoxSearchAddress" Text="{Binding AddressSearchQuery, Mode=TwoWay}" 
+                        KeyUp="textBoxSearchAddress_KeyUp"  Margin="5,5,5,0"/>
+                <Button Grid.Column="1" Name="buttonSearch" Content="Search" Margin="5,5,5,0" Click="buttonSearch_Click" />
+            </Grid>
+            <Grid Grid.Row="2" x:Name="searchResultRow" Margin="5,5,5,0"  Visibility="{Binding HasResults, Converter={StaticResource BooleanToVisibility}}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Search Results :"  Margin="3,0,0,0" />
+                <Button Grid.Row="0" Grid.Column="1" Name="buttonCloseResults"  Click="buttonCloseResults_Click">
+                    <Image Height="12" Source="/Images/Generics/close.png" />
+                </Button>
+                <ListBox Grid.Row="1" Name="listBoxResults" MaxHeight="52" ItemsSource="{Binding GeocodeResult}" 
+                        SelectionChanged="listBoxResults_SelectionChanged"   
+                        DisplayMemberPath="DisplayName" Grid.ColumnSpan="2" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
+

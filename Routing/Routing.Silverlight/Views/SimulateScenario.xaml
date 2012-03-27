@@ -1,0 +1,46 @@
+﻿<navigation:Page xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"  x:Class="Routing.Silverlight.Views.Simulate" 
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           mc:Ignorable="d"
+                 xmlns:map="clr-namespace:Microsoft.Maps.MapControl;assembly=Microsoft.Maps.MapControl"
+           xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+           xmlns:localModel="clr-namespace:Routing.Silverlight.Models"
+           d:DataContext="{d:DesignInstance Type=localModel:SimulateScenarioViewModel,IsDesignTimeCreatable=True}"
+           d:DesignWidth="640" d:DesignHeight="480"
+           Title="Simulate Page">
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <ListBox Margin="5" ItemsSource="{Binding Simulations}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedSimulation, Mode=TwoWay}" >
+            
+        </ListBox>
+        
+        <Grid Grid.Column="1" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <map:Map x:Name="Map"   CredentialsProvider="Aml_hW0EpwSkTsHB5Lnp5cZrKFE2U7McBgKK5gxFwtaTnwilp03rgIcNLNpgkxfm" >
+                <!--<map:MapLayer >
+                    <map:Pushpin />
+                    <map:Pushpin />
+                </map:MapLayer>-->
+
+                <!--<map:MapItemsControl ItemsSource="{Binding Routes}">                           
+                    <map:MapItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <map:Pushpin />
+                        </DataTemplate>
+                    </map:MapItemsControl.ItemTemplate>
+                 </map:MapItemsControl>-->
+            </map:Map>
+            
+        </Grid>
+    </Grid>
+</navigation:Page>

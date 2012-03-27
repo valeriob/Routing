@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Http;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
+using Routing.Domain.Infrastructure;
+using Autofac;
+using Autofac.Integration.Mvc;
+using System.Reflection;
+using Routing.Web.Services;
+using Autofac.Integration.Wcf;
 
 namespace Routing.Web
 {
@@ -23,27 +27,37 @@ namespace Routing.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+            routes.MapRoute(
+                "Default", // Route name
+                "{controller}/{action}/{id}", // URL with parameters
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
 
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
         }
 
         protected void Application_Start()
         {
+            var container = Container.Instance;
+
+            var builder = new ContainerBuilder(); 
+            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+            
+            // http://code.google.com/p/autofac/wiki/Mvc3Integration
+            //builder.RegisterModelBinders(Assembly.GetExecutingAssembly()); 
+            //builder.RegisterModelBinderProvider();
+
+            builder.RegisterType<References>();
+            builder.RegisterType<Scenario>();
+
+            builder.Update(container);
+
+            AutofacHostFactory.Container = container;
+
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container)); 
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-
-            BundleTable.Bundles.RegisterTemplateBundles();
         }
     }
 }

@@ -1,0 +1,601 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:commonBehavior="clr-namespace:Silverlight.Common.Behaviors;assembly=Silverlight.Common"
+    xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	xmlns:local="clr-namespace:Silverlight.Common.Controls"
+    xmlns:wcontainer="clr-namespace:Silverlight.Common.Controls.WidgetContainer"
+    xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows">
+
+    <Style TargetType="local:CustomDataPager">
+        <Setter Property="Background" Value="#FFF2F3F4"/>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFA3AEB9" Offset="0"/>
+                    <GradientStop Color="#FF8399A9" Offset="0.375"/>
+                    <GradientStop Color="#FF718597" Offset="0.375"/>
+                    <GradientStop Color="#FF617584" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        <Setter Property="NumericButtonStyle">
+            <Setter.Value>
+                <Style TargetType="ToggleButton">
+                    <Setter Property="MinHeight" Value="20"/>
+                    <Setter Property="MinWidth" Value="20"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Background" Value="#00000000"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Padding" Value="1"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Grid>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal"/>
+                                            <VisualState x:Name="MouseOver">
+                                                <Storyboard>
+                                                    <ColorAnimation Duration="0" To="#FFFFFFFF" Storyboard.TargetProperty="(BorderBrush).Color" Storyboard.TargetName="OuterBtnBorder"/>
+                                                    <ColorAnimation Duration="0" To="#FFCCD1D6" Storyboard.TargetProperty="(BorderBrush).Color" Storyboard.TargetName="InnerBtnBorder"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Pressed">
+                                                <Storyboard>
+                                                    <ColorAnimation Duration="0" To="#FFFFFFFF" Storyboard.TargetProperty="(BorderBrush).Color" Storyboard.TargetName="OuterBtnBorder"/>
+                                                    <ColorAnimation Duration="0" To="#FFCCD1D6" Storyboard.TargetProperty="(BorderBrush).Color" Storyboard.TargetName="InnerBtnBorder"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Disabled">
+                                                <Storyboard>
+                                                    <DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="contentPresenter"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                        <VisualStateGroup x:Name="CheckStates">
+                                            <VisualState x:Name="Checked">
+                                                <Storyboard>
+                                                    <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="CheckedStateOuterBorder"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Unchecked"/>
+                                        </VisualStateGroup>
+                                        <VisualStateGroup x:Name="FocusStates">
+                                            <VisualState x:Name="Focused">
+                                                <Storyboard>
+                                                    <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualElement"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Unfocused"/>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Border x:Name="CheckedStateOuterBorder" BorderBrush="#00FFFFFF" BorderThickness="{TemplateBinding BorderThickness}" Background="#7FA9A9A9" CornerRadius="3" Opacity="0"/>
+                                    <Border x:Name="OuterBtnBorder" BorderBrush="#00FFFFFF" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="3">
+                                        <Border x:Name="InnerBtnBorder" BorderBrush="#00CCD1D6" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2">
+                                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </Border>
+                                    <Border x:Name="FocusVisualElement" BorderBrush="#FF6DBDD1" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="2" Margin="1" Opacity="0"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:CustomDataPager">
+                    <Grid x:Name="Root" Background="Transparent">
+                        <Grid.Resources>
+                            <SolidColorBrush x:Key="BackgroundColor" Color="#00000000"/>
+                            <SolidColorBrush x:Key="ForegroundColor" Color="#FF000000"/>
+                            <SolidColorBrush x:Key="BorderBrushColor" Color="#FFFFFFFF"/>
+                            <ControlTemplate x:Key="ButtonTemplate" TargetType="Button">
+                                <Grid>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal"/>
+                                            <VisualState x:Name="MouseOver">
+                                                <Storyboard>
+                                                    <ColorAnimation Duration="0" To="#FFFFFFFF" Storyboard.TargetProperty="(BorderBrush).Color" Storyboard.TargetName="OuterBtnBorder"/>
+                                                    <ColorAnimation Duration="0" To="#FFCCD1D6" Storyboard.TargetProperty="(BorderBrush).Color" Storyboard.TargetName="InnerBtnBorder"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Pressed">
+                                                <Storyboard>
+                                                    <ColorAnimation Duration="0" To="#FFFFFFFF" Storyboard.TargetProperty="(BorderBrush).Color" Storyboard.TargetName="OuterBtnBorder"/>
+                                                    <ColorAnimation Duration="0" To="#00FFFFFF" Storyboard.TargetProperty="(BorderBrush).Color" Storyboard.TargetName="InnerBtnBorder"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Disabled">
+                                                <Storyboard>
+                                                    <DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="path"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                        <VisualStateGroup x:Name="FocusStates">
+                                            <VisualState x:Name="Focused">
+                                                <Storyboard>
+                                                    <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualElement"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Unfocused"/>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Border x:Name="OuterBtnBorder" BorderBrush="#00FFFFFF" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="3">
+                                        <Border x:Name="InnerBtnBorder" BorderBrush="#00CCD1D6" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2">
+                                            <ContentPresenter x:Name="path" Content="{TemplateBinding Content}"/>
+                                        </Border>
+                                    </Border>
+                                    <Border x:Name="FocusVisualElement" BorderBrush="#FF6DBDD1" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="2" Margin="1" Opacity="0"/>
+                                </Grid>
+                            </ControlTemplate>
+                            <Style x:Key="PagingTextBoxStyle" TargetType="TextBox">
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="Background" Value="#FFFFFFFF"/>
+                                <Setter Property="Foreground" Value="#FF000000"/>
+                                <Setter Property="Padding" Value="2, 2, 2, -1"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Grid x:Name="RootElement">
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup x:Name="CommonStates">
+                                                        <VisualState x:Name="Normal"/>
+                                                        <VisualState x:Name="MouseOver">
+                                                            <Storyboard>
+                                                                <ColorAnimation To="#FF99C1E2" Storyboard.TargetProperty="(BorderBrush).Color" Storyboard.TargetName="MouseOverBorder"/>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="Disabled">
+                                                            <Storyboard>
+                                                                <DoubleAnimation To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DisabledVisualElement"/>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="ReadOnly">
+                                                            <Storyboard>
+                                                                <DoubleAnimation To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ReadOnlyVisualElement"/>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                    </VisualStateGroup>
+                                                    <VisualStateGroup x:Name="FocusStates">
+                                                        <VisualState x:Name="Focused">
+                                                            <Storyboard>
+                                                                <DoubleAnimation To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualElement"/>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="Unfocused"/>
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
+                                                <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="#66FFFFFF" CornerRadius="1" Opacity="1">
+                                                    <Grid>
+                                                        <Border x:Name="ReadOnlyVisualElement" Background="#72F7F7F7" Opacity="0"/>
+                                                        <Border x:Name="MouseOverBorder" BorderBrush="Transparent" BorderThickness="1">
+                                                            <ScrollViewer x:Name="ContentElement" BorderThickness="0" IsTabStop="False" Margin="0,-3,0,0" Padding="{TemplateBinding Padding}" VerticalAlignment="Top"/>
+                                                        </Border>
+                                                    </Grid>
+                                                </Border>
+                                                <Border x:Name="DisabledVisualElement" BorderBrush="#A5F7F7F7" BorderThickness="{TemplateBinding BorderThickness}" Background="#A5F7F7F7" IsHitTestVisible="False" Opacity="0"/>
+                                                <Border x:Name="FocusVisualElement" BorderBrush="#FF6DBDD1" BorderThickness="{TemplateBinding BorderThickness}" IsHitTestVisible="False" Margin="1" Opacity="0"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Grid.Resources>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="CurrentPagePrefixTextBlock"/>
+                                        <DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="CurrentPageSuffixTextBlock"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="MoveStates">
+                                <VisualState x:Name="MoveEnabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="CurrentPageTextBox">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MoveDisabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="CurrentPageTextBox">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="False"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="MoveFirstStates">
+                                <VisualState x:Name="MoveFirstEnabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="FirstPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MoveFirstDisabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="FirstPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="False"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="MovePreviousStates">
+                                <VisualState x:Name="MovePreviousEnabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="PreviousPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MovePreviousDisabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="PreviousPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="False"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="MoveNextStates">
+                                <VisualState x:Name="MoveNextEnabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="NextPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MoveNextDisabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="NextPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="False"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="MoveLastStates">
+                                <VisualState x:Name="MoveLastEnabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="LastPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MoveLastDisabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="LastPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="False"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="DisplayModeStates">
+                                <VisualState x:Name="FirstLastNumeric">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="NextPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="PreviousPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CurrentPageTextBox">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="PageDisplay">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="FirstLastPreviousNext">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="NumericButtonPanel">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="FirstLastPreviousNextNumeric">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CurrentPageTextBox">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="PageDisplay">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Numeric">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="FirstPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="LastPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="NextPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="PreviousPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CurrentPageTextBox">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="PageDisplay">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="Separator1">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="Separator2">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="PreviousNext">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="FirstPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="LastPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="NumericButtonPanel">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="PreviousNextNumeric">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="FirstPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="LastPageButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CurrentPageTextBox">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="PageDisplay">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="2" MinHeight="24" Padding="{TemplateBinding Padding}" VerticalAlignment="Bottom">
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition  Width="Auto" />
+                                    <ColumnDefinition  Width="*"/>
+                                    <ColumnDefinition  Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <ComboBox Name="PageSizeComboBox" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" 
+								Margin="10,0,10,0">
+                                    <TextBlock Text="Total Items Count : " VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="TotalCountTextBlock2" VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Orientation="Horizontal" VerticalAlignment="Stretch">
+                                    <Button x:Name="FirstPageButton" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="1" Background="{StaticResource BackgroundColor}" Foreground="{StaticResource ForegroundColor}" HorizontalAlignment="Right" Height="20" Padding="1" Template="{StaticResource ButtonTemplate}" VerticalAlignment="Center" Width="20">
+                                        <Grid Height="9" Width="8">
+                                            <Path Data="M0,1 L1,0 L1,2 Z" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Right" Height="9" Stretch="Fill" Width="5"/>
+                                            <Rectangle Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Width="2"/>
+                                        </Grid>
+                                    </Button>
+                                    <Button x:Name="PreviousPageButton" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="1" Background="{StaticResource BackgroundColor}" Foreground="{StaticResource ForegroundColor}" HorizontalAlignment="Right" Height="20" Padding="1" Template="{StaticResource ButtonTemplate}" VerticalAlignment="Center" Width="20">
+                                        <Path Data="M0,1 L1,0 L1,2 Z" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Center" Height="9" Stretch="Fill" Width="5"/>
+                                    </Button>
+                                    <Border x:Name="Separator1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,0,1,0" Background="#FFCCD1D6" Margin="0,3,0,3" Width="1"/>
+                                    <StackPanel x:Name="NumericButtonPanel" Margin="1" Orientation="Horizontal"/>
+                                    <StackPanel x:Name="PageDisplay" Orientation="Horizontal">
+                                        <TextBlock x:Name="CurrentPagePrefixTextBlock" Foreground="{TemplateBinding Foreground}" Margin="4,0,0,0" VerticalAlignment="Center" Width="Auto"/>
+                                        <TextBox x:Name="CurrentPageTextBox" BorderBrush="{TemplateBinding BorderBrush}" Foreground="{TemplateBinding Foreground}" Height="Auto" Margin="4,2,4,2" Style="{StaticResource PagingTextBoxStyle}" TextWrapping="Wrap" VerticalAlignment="Center" Width="40"/>
+                                        <TextBlock x:Name="CurrentPageSuffixTextBlock" Foreground="{TemplateBinding Foreground}" Margin="0,0,4,0" VerticalAlignment="Center" Width="Auto"/>
+                                    </StackPanel>
+                                    <Border x:Name="Separator2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,0,1,0" Background="#FFCCD1D6" Margin="0,3,0,3" Width="1"/>
+                                    <Button x:Name="NextPageButton" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="1" Background="{StaticResource BackgroundColor}" Foreground="{StaticResource ForegroundColor}" HorizontalAlignment="Right" Height="20" Padding="1" Template="{StaticResource ButtonTemplate}" VerticalAlignment="Center" Width="20">
+                                        <Path Data="M0,0 L1,1 L0,2 Z" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Center" Height="9" Stretch="Fill" Width="5"/>
+                                    </Button>
+                                    <Button x:Name="LastPageButton" BorderBrush="{StaticResource BorderBrushColor}" BorderThickness="1" Background="{StaticResource BackgroundColor}" Foreground="{StaticResource ForegroundColor}" HorizontalAlignment="Right" Height="20" Padding="1" Template="{StaticResource ButtonTemplate}" VerticalAlignment="Center" Width="20">
+                                        <Grid Height="9" Width="8">
+                                            <Path Data="M0,0 L1,1 L0,2 Z" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Height="9" Stretch="Fill" Width="5"/>
+                                            <Rectangle Fill="{TemplateBinding Foreground}" HorizontalAlignment="Right" Width="2"/>
+                                        </Grid>
+                                    </Button>
+                                </StackPanel>
+
+                            </Grid >
+
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style TargetType="local:F2Control">
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate  TargetType="local:F2Control">
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--  KeyUp="TextBox_KeyUp" LostFocus="TextBox_LostFocus"  Click="Button_Click"   Text="{TemplateBinding Text}"   -->
+                        <TextBlock Grid.Column="0" Name="TextBlockF2" Text="{TemplateBinding LabelText}" TextAlignment="Left"  VerticalAlignment="Center"/>
+                        <TextBox   Grid.Column="1"  Name="TextBoxF2" HorizontalAlignment="Stretch" >
+                            <interactivity:Interaction.Behaviors>
+                                <commonBehavior:SelectTextBehavior />
+                            </interactivity:Interaction.Behaviors>
+                        </TextBox>
+                        <Button    Grid.Column="2"  Name="ButtonF2" Content="F2" Width="24"/>
+                    </Grid>
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="wcontainer:WidgetItemContainer">
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate  TargetType="wcontainer:WidgetItemContainer"  >
+                    <Grid Name="grid" >
+                        <Grid.Effect>
+                            <DropShadowEffect BlurRadius="5" Direction="315" ShadowDepth="5" Color="Black" />
+                        </Grid.Effect>
+                        <vsm:VisualStateManager.VisualStateGroups>
+                            <vsm:VisualStateGroup x:Name="CommonStates">
+                                <vsm:VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00.05" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ColorAnimation BeginTime="00:00:00" Storyboard.TargetName="border"  From="#FFC2D5DE" To="Transparent" Duration="0:0:0"
+                                            Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" />
+                                    </Storyboard>
+                                </vsm:VisualState>
+                                <vsm:VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimation BeginTime="00:00:00" Storyboard.TargetName="border"  From="Transparent" To="#FFC2D5DE" Duration="0:0:0"
+                                            Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" />
+                                    </Storyboard>
+                                </vsm:VisualState>
+                            </vsm:VisualStateGroup>
+                            <vsm:VisualStateGroup x:Name="DraggingGroup">
+                                <vsm:VisualState x:Name="Dragging">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00.05" Value="0.6"/>
+                                        </DoubleAnimationUsingKeyFrames>
+
+                                        <ColorAnimation BeginTime="00:00:00" Storyboard.TargetName="border"  From="Transparent" To="#FFC2D5DE" Duration="0:0:0"
+                                            Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" />
+
+                                    </Storyboard>
+                                </vsm:VisualState>
+                                <vsm:VisualState x:Name="NotDragging">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00.05" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+
+                                        <ColorAnimation BeginTime="00:00:00" Storyboard.TargetName="border"  From="#FFC2D5DE" To="Transparent" Duration="0:0:0"
+                                            Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" />
+
+                                    </Storyboard>
+                                </vsm:VisualState>
+                            </vsm:VisualStateGroup>
+                        </vsm:VisualStateManager.VisualStateGroups>
+
+                        <!--   BorderBrush="#FFC2D5DE" -->
+                        <Border Name="border" BorderBrush="Transparent" BorderThickness="2" CornerRadius="3" >
+                            <Grid>
+                                <ContentPresenter Name="itemPresenter"  />
+
+                                <Grid Width="20" Height="20"  x:Name="resizeAncor" VerticalAlignment="Bottom" HorizontalAlignment="Right" Opacity="0.5" >
+                                    <Grid.Background>
+                                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
+                                            <GradientStop Color="#FF939393" Offset="0.025"  />
+                                            <GradientStop Color="Transparent" Offset="0.6"/>
+                                        </LinearGradientBrush>
+                                    </Grid.Background>
+                                    <Line X1="2" Y1="18" X2="18" Y2="2"  Stroke="Gray" StrokeThickness="1" />
+                                    <Line X1="7" Y1="18" X2="18" Y2="7"   Stroke="#FF6E6E6E" StrokeThickness="1" />
+                                    <Line X1="12" Y1="18" X2="18" Y2="12"  Stroke="#FF5C5A5A" StrokeThickness="1" />
+                                </Grid>
+                                
+                                <!--<Image Name="resizeImage" Source="/Silverlight.Common;component/Assets/Images/resizecue.png" Width="18" Height="18" 
+                                       VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE" />-->
+                            </Grid>
+                        </Border>
+                        
+                    </Grid>
+  
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="wcontainer:PagedWidgetContainer">
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="wcontainer:PagedWidgetContainer"  >
+                    <Grid Name="MainGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <Grid Name="PanelsGrid">
+                            
+                        </Grid>
+                        <!--<TextBlock Grid.Row="1" Text="Paging goes here" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" />-->
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--<vsm:VisualStateManager.VisualStateGroups>
+        <vsm:VisualStateGroup x:Name="CommonStates">
+            <vsm:VisualState x:Name="Normal">
+                <Storyboard>
+                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                        <SplineDoubleKeyFrame KeyTime="00:00:00.05" Value="0.5"/>
+                    </DoubleAnimationUsingKeyFrames>
+                </Storyboard>
+            </vsm:VisualState>
+        </vsm:VisualStateGroup>
+        <vsm:VisualStateGroup x:Name="DraggingGroup">
+            <vsm:VisualState x:Name="Dragging">
+                <Storyboard>
+                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                        <SplineDoubleKeyFrame KeyTime="00:00:00.05" Value="0.6"/>
+                    </DoubleAnimationUsingKeyFrames>
+
+                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="border" Storyboard.TargetProperty="(Border.BorderThickness)">
+                        <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                            <DiscreteObjectKeyFrame.Value>
+                                <Thickness>3</Thickness>
+                            </DiscreteObjectKeyFrame.Value>
+                        </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+            </vsm:VisualState>
+            <vsm:VisualState x:Name="NotDragging">
+                <Storyboard>
+                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                        <SplineDoubleKeyFrame KeyTime="00:00:00.05" Value="1"/>
+                    </DoubleAnimationUsingKeyFrames>
+                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="border" Storyboard.TargetProperty="(Border.BorderThickness)">
+                        <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                            <DiscreteObjectKeyFrame.Value>
+                                <Thickness>1</Thickness>
+                            </DiscreteObjectKeyFrame.Value>
+                        </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+            </vsm:VisualState>
+        </vsm:VisualStateGroup>
+    </vsm:VisualStateManager.VisualStateGroups>-->
+
+</ResourceDictionary>

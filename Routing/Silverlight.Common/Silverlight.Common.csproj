@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A819237E-C1D6-4B53-8BE7-ECDEA13BF51C}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Silverlight.Common</RootNamespace>
+    <AssemblyName>Silverlight.Common</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="ReactiveUI.Blend_SL4">
+      <HintPath>..\packages\reactiveui-xaml.2.5.2.0\lib\SL4\ReactiveUI.Blend_SL4.dll</HintPath>
+    </Reference>
+    <Reference Include="ReactiveUI.Xaml_SL4">
+      <HintPath>..\packages\reactiveui-xaml.2.5.2.0\lib\SL4\ReactiveUI.Xaml_SL4.dll</HintPath>
+    </Reference>
+    <Reference Include="ReactiveUI_SL4">
+      <HintPath>..\packages\reactiveui-core.2.5.2.0\lib\SL4\ReactiveUI_SL4.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Services.Client, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive">
+      <HintPath>..\packages\Rx_Experimental-Main.1.1.11111\lib\SL5\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Windows.Threading">
+      <HintPath>..\packages\Rx_Experimental-Xaml.1.1.11111\lib\SL5\System.Reactive.Windows.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel.DomainServices.Client, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Controls, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Data, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Navigation, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Toolkit">
+      <HintPath>..\packages\SilverlightToolkit-Core.4.2010.4\lib\sl4\System.Windows.Controls.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Data, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\Lib\Silverlight\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attached\BindingHelper.cs" />
+    <Compile Include="Attached\UpdateDataSourceDelayed.cs" />
+    <Compile Include="Behaviors\BindableTreeViewSelectedItemBehavior.cs" />
+    <Compile Include="Behaviors\SelectTextBehavior.cs" />
+    <Compile Include="Behaviors\EnterBehaviors.cs" />
+    <Compile Include="Code\DelayedAction.cs" />
+    <Compile Include="Code\Semaphore.cs" />
+    <Compile Include="Code\ThicknessWrapper.cs" />
+    <Compile Include="Controls\ActionQueue\ActionQueue.xaml.cs">
+      <DependentUpon>ActionQueue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ActionQueue\ActionQueueViewModel.cs" />
+    <Compile Include="Controls\CustomComboBox.cs" />
+    <Compile Include="Controls\CustomDataPager.cs" />
+    <Compile Include="Controls\CustomTreeView.cs" />
+    <Compile Include="Controls\F2Control.cs" />
+    <Compile Include="Controls\HierarchyTree.xaml.cs">
+      <DependentUpon>HierarchyTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SnapGrid\PlaceHolder.cs" />
+    <Compile Include="Controls\SnapGrid\SnapGrid.cs" />
+    <Compile Include="Controls\SnapGrid\SnapGridItemContainer.cs" />
+    <Compile Include="Controls\UniformGrid.cs" />
+    <Compile Include="Controls\WidgetContainer\BusyMap.cs" />
+    <Compile Include="Controls\WidgetContainer\WidgetContainer2.cs" />
+    <Compile Include="Controls\WidgetContainer\EditAction.cs" />
+    <Compile Include="Controls\WidgetContainer\WidgetBoard.xaml.cs">
+      <DependentUpon>WidgetBoard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WidgetContainer\GridWidgetContainer.cs" />
+    <Compile Include="Controls\WidgetContainer\PagedWidgetContainer.xaml.cs">
+      <DependentUpon>PagedWidgetContainer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WidgetContainer\Extensions.cs" />
+    <Compile Include="Controls\WidgetContainer\WidgetItemContainer.cs" />
+    <Compile Include="Controls\WidgetContainer\WidgetContainer.cs" />
+    <Compile Include="Converters\Converters.cs" />
+    <Compile Include="DynamicLinq\DynamicQuery.cs" />
+    <Compile Include="DynamicLinq\LockCookie.cs" />
+    <Compile Include="DynamicLinq\PredicateBuilder.cs" />
+    <Compile Include="DynamicLinq\ReadWriterLock.cs" />
+    <Compile Include="DynamicSearch\SearchViewModel.cs" />
+    <Compile Include="DynamicSearch\CwSearch.xaml.cs">
+      <DependentUpon>CwSearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DynamicSearch\Filters.cs" />
+    <Compile Include="DynamicSearch\FiltersContainer.cs" />
+    <Compile Include="DynamicSearch\FilterVisitor.cs" />
+    <Compile Include="DynamicSearch\IFilterVisitor.cs" />
+    <Compile Include="DynamicSearch\Search.xaml.cs">
+      <DependentUpon>Search.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DynamicSearch\SearchHelper.cs" />
+    <Compile Include="DynamicSearch\RiaSearchViewModel.cs" />
+    <Compile Include="DynamicSearch\UcSearch.xaml.cs">
+      <DependentUpon>UcSearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\MenuItem.cs" />
+    <Compile Include="Enums\ViewSpanType.cs" />
+    <Compile Include="Extensions\System.cs" />
+    <Compile Include="Helpers\ControlsHelper.cs" />
+    <Compile Include="Helpers\CustomTypeHelper.cs" />
+    <Compile Include="Helpers\DataTemplateSelector.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\EnumWrapper.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\GenericUndo.cs" />
+    <Compile Include="Helpers\ReflectionHelper.cs" />
+    <Compile Include="Menu\DynamicNestedMenu2.cs" />
+    <Compile Include="Menu\NestedMenu.xaml.cs">
+      <DependentUpon>NestedMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Menu\DynamicNestedMenu.xaml.cs">
+      <DependentUpon>DynamicNestedMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Menu\Node.cs" />
+    <Compile Include="Models\OnEnergyViewModel.cs" />
+    <Compile Include="MouseButtonHelper.cs" />
+    <Compile Include="PagedSortableCollectionView.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyChangeManager.cs" />
+    <Compile Include="Resources\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\ActionQueue\ActionQueue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\WidgetContainer\PagedWidgetContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\WidgetContainer\WidgetBoard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Menu\NestedMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Menu\DynamicNestedMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Resource Include="Themes\generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Page Include="Controls\HierarchyTree.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DynamicSearch\CwSearch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DynamicSearch\Search.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DynamicSearch\UcSearch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\CustomBusyIndicator\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\resizecue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

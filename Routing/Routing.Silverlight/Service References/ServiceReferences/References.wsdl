@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="References" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost/Routing/Services/References.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost/Routing/Services/References.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost/Routing/Services/References.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Routing.Domain.Dto.Query" />
+      <xsd:import schemaLocation="http://localhost/Routing/Services/References.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Routing.Domain.Dto" />
+      <xsd:import schemaLocation="http://localhost/Routing/Services/References.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Routing.Domain.Dto.Abstracts" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IReferences_Known_Destinations_InputMessage">
+    <wsdl:part name="parameters" element="tns:Known_Destinations" />
+  </wsdl:message>
+  <wsdl:message name="IReferences_Known_Destinations_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Known_DestinationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IReferences_Search_Scenarios_InputMessage">
+    <wsdl:part name="parameters" element="tns:Search_Scenarios" />
+  </wsdl:message>
+  <wsdl:message name="IReferences_Search_Scenarios_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Search_ScenariosResponse" />
+  </wsdl:message>
+  <wsdl:message name="IReferences_Get_AbstractScenario_InputMessage">
+    <wsdl:part name="parameters" element="tns:Get_AbstractScenario" />
+  </wsdl:message>
+  <wsdl:message name="IReferences_Get_AbstractScenario_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Get_AbstractScenarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IReferences_Get_AbstractSiumulations_InputMessage">
+    <wsdl:part name="parameters" element="tns:Get_AbstractSiumulations" />
+  </wsdl:message>
+  <wsdl:message name="IReferences_Get_AbstractSiumulations_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Get_AbstractSiumulationsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IReferences">
+    <wsdl:operation name="Known_Destinations">
+      <wsdl:input wsaw:Action="http://tempuri.org/IReferences/Known_Destinations" message="tns:IReferences_Known_Destinations_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IReferences/Known_DestinationsResponse" message="tns:IReferences_Known_Destinations_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Search_Scenarios">
+      <wsdl:input wsaw:Action="http://tempuri.org/IReferences/Search_Scenarios" message="tns:IReferences_Search_Scenarios_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IReferences/Search_ScenariosResponse" message="tns:IReferences_Search_Scenarios_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_AbstractScenario">
+      <wsdl:input wsaw:Action="http://tempuri.org/IReferences/Get_AbstractScenario" message="tns:IReferences_Get_AbstractScenario_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IReferences/Get_AbstractScenarioResponse" message="tns:IReferences_Get_AbstractScenario_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_AbstractSiumulations">
+      <wsdl:input wsaw:Action="http://tempuri.org/IReferences/Get_AbstractSiumulations" message="tns:IReferences_Get_AbstractSiumulations_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IReferences/Get_AbstractSiumulationsResponse" message="tns:IReferences_Get_AbstractSiumulations_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IReferences" type="tns:IReferences">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Known_Destinations">
+      <soap:operation soapAction="http://tempuri.org/IReferences/Known_Destinations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Search_Scenarios">
+      <soap:operation soapAction="http://tempuri.org/IReferences/Search_Scenarios" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_AbstractScenario">
+      <soap:operation soapAction="http://tempuri.org/IReferences/Get_AbstractScenario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_AbstractSiumulations">
+      <soap:operation soapAction="http://tempuri.org/IReferences/Get_AbstractSiumulations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="References">
+    <wsdl:port name="BasicHttpBinding_IReferences" binding="tns:BasicHttpBinding_IReferences">
+      <soap:address location="http://localhost/Routing/Services/References.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

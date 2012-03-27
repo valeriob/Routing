@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3F17B54C-897C-4042-8D73-D2EB9DBCF1D9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Routing.Domain</RootNamespace>
+    <AssemblyName>Routing.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AsyncCtpLibrary">
+      <HintPath>..\packages\RavenDB-Client.1.0.701\lib\net40\AsyncCtpLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.2.6.1.841\lib\NET40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Configuration">
+      <HintPath>..\packages\Autofac.2.6.1.841\lib\NET40\Autofac.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Abstractions">
+      <HintPath>..\packages\RavenDB-Client.1.0.701\lib\net40\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Debug">
+      <HintPath>..\packages\RavenDB-Client.1.0.701\lib\net40\Raven.Client.Debug.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\packages\RavenDB-Client.1.0.701\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.MvcIntegration">
+      <HintPath>..\packages\RavenDB-Client.1.0.701\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Aggregates\Scenario\Order.cs" />
+    <Compile Include="Aggregates\Scenario\Voyage.cs" />
+    <Compile Include="Aggregates\User\Identity.cs" />
+    <Compile Include="Aggregates\User\User.cs" />
+    <Compile Include="Aggregates\Destination\Destination.cs" />
+    <Compile Include="Aggregates\DenormalizedReference.cs" />
+    <Compile Include="Aggregates\Item.cs" />
+    <Compile Include="Aggregates\Scenario\Scenario.cs" />
+    <Compile Include="Aggregates\Scenario\Simulation.cs" />
+    <Compile Include="Aggregates\Vehicle\Vehicle.cs" />
+    <Compile Include="Dto\Abstracts\AbstractSimulationDto.cs" />
+    <Compile Include="Dto\DestinationDto.cs" />
+    <Compile Include="Dto\Command\Update_Scenario.cs" />
+    <Compile Include="Dto\Command\Register_New_User.cs" />
+    <Compile Include="Dto\Events\Scenario_Deleted.cs" />
+    <Compile Include="Dto\Events\Scenario_Created.cs" />
+    <Compile Include="Dto\Extensions.cs" />
+    <Compile Include="Dto\OrderDto.cs" />
+    <Compile Include="Dto\QuantityDto.cs" />
+    <Compile Include="Dto\Query\SearchSimulations.cs" />
+    <Compile Include="Dto\Query\SearchScenarios.cs" />
+    <Compile Include="Dto\Query\NearByPagedQuery.cs" />
+    <Compile Include="Dto\Query\Paging.cs" />
+    <Compile Include="Dto\Query\SearchDestinations.cs" />
+    <Compile Include="Dto\Abstracts\AbstractScenarioDto.cs" />
+    <Compile Include="Dto\SimulationDto.cs" />
+    <Compile Include="Dto\Validation\IValidate.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="IAggregateRoot.cs" />
+    <Compile Include="Infrastructure\Container.cs" />
+    <Compile Include="Infrastructure\Data\Indexes.cs" />
+    <Compile Include="Infrastructure\DynamicQuery.cs" />
+    <Compile Include="Infrastructure\PredicateBuilder.cs" />
+    <Compile Include="IValueObject.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadModel\Scenario_ReadModel.cs" />
+    <Compile Include="ReadModel\References_ReadModel.cs" />
+    <Compile Include="Services\Registration.cs" />
+    <Compile Include="Services\Scenario.cs" />
+    <Compile Include="Services\Simulation.cs" />
+    <Compile Include="ValueObjects\Address.cs" />
+    <Compile Include="ValueObjects\Country.cs" />
+    <Compile Include="ValueObjects\Location.cs" />
+    <Compile Include="ValueObjects\Quantity.cs" />
+    <Compile Include="ValueObjects\Unit.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Aggregates\Simulation\" />
+    <Folder Include="Sagas\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

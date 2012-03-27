@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="6c938a7a-87c3-4d79-982c-7ded737ecd37" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost/Routing/Services/References.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="References.wsdl" MetadataType="Wsdl" ID="e3613a91-e3ef-48aa-a426-5fb25017bc20" SourceId="1" SourceUrl="http://localhost/Routing/Services/References.svc?wsdl" />
+    <MetadataFile FileName="References.disco" MetadataType="Disco" ID="34dbe63b-02b9-4f3b-84d7-e757585cc9cc" SourceId="1" SourceUrl="http://localhost/Routing/Services/References.svc?disco" />
+    <MetadataFile FileName="References.xsd" MetadataType="Schema" ID="c72324f8-00c2-4779-8481-c5bb0c0c358c" SourceId="1" SourceUrl="http://localhost/Routing/Services/References.svc?xsd=xsd1" />
+    <MetadataFile FileName="References1.xsd" MetadataType="Schema" ID="97c6cf77-f634-4505-8395-398312b48c74" SourceId="1" SourceUrl="http://localhost/Routing/Services/References.svc?xsd=xsd0" />
+    <MetadataFile FileName="References2.xsd" MetadataType="Schema" ID="d61cca6c-07c9-471a-9cf2-11101ea67fef" SourceId="1" SourceUrl="http://localhost/Routing/Services/References.svc?xsd=xsd3" />
+    <MetadataFile FileName="References3.xsd" MetadataType="Schema" ID="8194079d-4b05-47eb-aa4a-b4019524d75c" SourceId="1" SourceUrl="http://localhost/Routing/Services/References.svc?xsd=xsd2" />
+    <MetadataFile FileName="References4.xsd" MetadataType="Schema" ID="c58fe732-3a7f-4471-a501-374e606c66c7" SourceId="1" SourceUrl="http://localhost/Routing/Services/References.svc?xsd=xsd4" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

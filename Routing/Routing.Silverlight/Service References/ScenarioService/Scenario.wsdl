@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Scenario" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost/Routing/Services/Scenario.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost/Routing/Services/Scenario.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost/Routing/Services/Scenario.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Routing.Domain.Dto.Command" />
+      <xsd:import schemaLocation="http://localhost/Routing/Services/Scenario.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Routing.Domain.Dto" />
+      <xsd:import schemaLocation="http://localhost/Routing/Services/Scenario.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IScenario_Create_Scenario_InputMessage">
+    <wsdl:part name="parameters" element="tns:Create_Scenario" />
+  </wsdl:message>
+  <wsdl:message name="IScenario_Create_Scenario_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Create_ScenarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IScenario_Get_Scenario_InputMessage">
+    <wsdl:part name="parameters" element="tns:Get_Scenario" />
+  </wsdl:message>
+  <wsdl:message name="IScenario_Get_Scenario_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Get_ScenarioResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IScenario">
+    <wsdl:operation name="Create_Scenario">
+      <wsdl:input wsaw:Action="http://tempuri.org/IScenario/Create_Scenario" message="tns:IScenario_Create_Scenario_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IScenario/Create_ScenarioResponse" message="tns:IScenario_Create_Scenario_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_Scenario">
+      <wsdl:input wsaw:Action="http://tempuri.org/IScenario/Get_Scenario" message="tns:IScenario_Get_Scenario_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IScenario/Get_ScenarioResponse" message="tns:IScenario_Get_Scenario_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IScenario" type="tns:IScenario">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Create_Scenario">
+      <soap:operation soapAction="http://tempuri.org/IScenario/Create_Scenario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_Scenario">
+      <soap:operation soapAction="http://tempuri.org/IScenario/Get_Scenario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Scenario">
+    <wsdl:port name="BasicHttpBinding_IScenario" binding="tns:BasicHttpBinding_IScenario">
+      <soap:address location="http://localhost/Routing/Services/Scenario.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

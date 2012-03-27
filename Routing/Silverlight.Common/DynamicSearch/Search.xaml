@@ -1,0 +1,47 @@
+﻿<navigation:Page  x:Class="Silverlight.Common.DynamicSearch.Search" 
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           mc:Ignorable="d"
+           xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+           d:DesignWidth="800" d:DesignHeight="350"
+           xmlns:local="clr-namespace:Silverlight.Common.DynamicSearch"
+           Title="Ricerca" 
+           xmlns:localModel="clr-namespace:Silverlight.Common.DynamicSearch"
+           d:DataContext="{d:DesignInstance Type=localModel:DesignEntitySearchViewModel,IsDesignTimeCreatable=True}"
+           xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <local:UcSearch x:Name="ucSearch" Grid.Row="1" />
+
+        <Border Style="{StaticResource PageHeaderStyle}">
+            <TextBlock Text="Anagrafica" VerticalAlignment="Center" Margin="10,0,0,0" FontWeight="Bold" FontSize="12" Foreground="White" />
+        </Border>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button Name="buttonNavigateBack" Grid.Column="0" Content="Indietro" Margin="5" Width="80" Click="NavigationClick" />
+
+            <Button Name="buttonDelete" Grid.Column="2" Content="Elimina" Margin="5" Width="80"   Command="{Binding DeleteSelectedEntityCmd}"/>
+            <Button Name="buttonEdit" Grid.Column="3" Content="Modifica" Margin="5" Width="80"   Command="{Binding EditSelectedEntityCmd}"/>
+            <Button Name="buttonNew" Grid.Column="4" Content="Nuovo" Margin="5" Width="80"   Command="{Binding CreateNewEntityCmd}"/>
+            
+        </Grid>
+       
+    </Grid>
+ 
+</navigation:Page>

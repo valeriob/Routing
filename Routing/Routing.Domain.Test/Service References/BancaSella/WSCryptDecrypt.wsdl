@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="https://ecomm.sella.it/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="https://ecomm.sella.it/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="https://ecomm.sella.it/">
+      <s:element name="Encrypt">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="shopLogin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="uicCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="amount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="shopTransactionId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cardNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="expiryMonth" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="expiryYear" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="buyerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="buyerEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="languageId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cvv" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="customInfo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EncryptResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EncryptResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Decrypt">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="shopLogin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CryptedString" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DecryptResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DecryptResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="EncryptSoapIn">
+    <wsdl:part name="parameters" element="tns:Encrypt" />
+  </wsdl:message>
+  <wsdl:message name="EncryptSoapOut">
+    <wsdl:part name="parameters" element="tns:EncryptResponse" />
+  </wsdl:message>
+  <wsdl:message name="DecryptSoapIn">
+    <wsdl:part name="parameters" element="tns:Decrypt" />
+  </wsdl:message>
+  <wsdl:message name="DecryptSoapOut">
+    <wsdl:part name="parameters" element="tns:DecryptResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WSCryptDecryptSoap">
+    <wsdl:operation name="Encrypt">
+      <wsdl:input message="tns:EncryptSoapIn" />
+      <wsdl:output message="tns:EncryptSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Decrypt">
+      <wsdl:input message="tns:DecryptSoapIn" />
+      <wsdl:output message="tns:DecryptSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSCryptDecryptSoap" type="tns:WSCryptDecryptSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Encrypt">
+      <soap:operation soapAction="https://ecomm.sella.it/Encrypt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Decrypt">
+      <soap:operation soapAction="https://ecomm.sella.it/Decrypt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WSCryptDecryptSoap12" type="tns:WSCryptDecryptSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Encrypt">
+      <soap12:operation soapAction="https://ecomm.sella.it/Encrypt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Decrypt">
+      <soap12:operation soapAction="https://ecomm.sella.it/Decrypt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSCryptDecrypt">
+    <wsdl:port name="WSCryptDecryptSoap" binding="tns:WSCryptDecryptSoap">
+      <soap:address location="https://testecomm.sella.it/gestpay/gestpayws/WSCryptDecrypt.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WSCryptDecryptSoap12" binding="tns:WSCryptDecryptSoap12">
+      <soap12:address location="https://testecomm.sella.it/gestpay/gestpayws/WSCryptDecrypt.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

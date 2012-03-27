@@ -1,0 +1,438 @@
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ServiceModel;
+using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Browser;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using Microsoft.Maps.MapControl;
+using Silverlight.Common.Maps.GeocodeService;
+using Silverlight.Common.Maps.RouteService;
+
+namespace MapControlInteractiveSdk.Tutorials.Services
+{
+    public partial class Route : UserControl
+    {
+        // This sample demonstrates how to call the VE routing service and the VE geocoding service.   
+        //
+        // Proxies for the ve platform services are generated using Visual Studio's "Add Service Reference".  
+        // The proxies are generated in the namespace "PlatformServices".   There is no "using" statement for 
+        // that namespace since some of the type names conflict with map control names.
+        //
+        // Proxies were generated using the Visual Studio default values for collection types.
+
+        public Route()
+        {
+            //InitializeComponent();
+        }
+
+        private GeocodeServiceClient geocodeClient;
+        private GeocodeServiceClient GeocodeClient
+        {
+            get
+            {
+                if (null == geocodeClient)
+                {
+                    //Handle http/https; OutOfBrowser is currently supported on the MapControl only for http pages
+                    bool httpsUriScheme = !Application.Current.IsRunningOutOfBrowser && HtmlPage.Document.DocumentUri.Scheme.Equals(Uri.UriSchemeHttps);
+                    BasicHttpBinding binding = new BasicHttpBinding(httpsUriScheme ? BasicHttpSecurityMode.Transport : BasicHttpSecurityMode.None);
+                    UriBuilder serviceUri = new UriBuilder("http://dev.virtualearth.net/webservices/v1/GeocodeService/GeocodeService.svc");
+                    if (httpsUriScheme)
+                    {
+                        //For https, change the UriSceheme to https and change it to use the default https port.
+                        serviceUri.Scheme = Uri.UriSchemeHttps;
+                        serviceUri.Port = -1;
+                    }
+
+                    //Create the Service Client
+                    geocodeClient = new GeocodeServiceClient(binding, new EndpointAddress(serviceUri.Uri));
+                    geocodeClient.GeocodeCompleted += new EventHandler<GeocodeCompletedEventArgs>(client_GeocodeCompleted);
+                }
+                return geocodeClient;
+            }
+        }
+
+        private RouteServiceClient routeClient;
+        private RouteServiceClient RouteClient
+        {
+            get
+            {
+                if (null == routeClient)
+                {
+                    //Handle http/https; OutOfBrowser is currently supported on the MapControl only for http pages
+                    bool httpsUriScheme = !Application.Current.IsRunningOutOfBrowser && HtmlPage.Document.DocumentUri.Scheme.Equals(Uri.UriSchemeHttps);
+                    BasicHttpBinding binding = new BasicHttpBinding(httpsUriScheme ? BasicHttpSecurityMode.Transport : BasicHttpSecurityMode.None);
+                    binding.MaxReceivedMessageSize = int.MaxValue;
+                    binding.MaxBufferSize = int.MaxValue;
+                    UriBuilder serviceUri = new UriBuilder("http://dev.virtualearth.net/webservices/v1/RouteService/RouteService.svc");
+                    if (httpsUriScheme)
+                    {
+                        //For https, change the UriSceheme to https and change it to use the default https port.
+                        serviceUri.Scheme = Uri.UriSchemeHttps;
+                        serviceUri.Port = -1;
+                    }
+
+                    //Create the Service Client
+                    routeClient = new RouteServiceClient(binding, new EndpointAddress(serviceUri.Uri));
+                    routeClient.CalculateRouteCompleted += new EventHandler<CalculateRouteCompletedEventArgs>(client_RouteCompleted);
+                }
+                return routeClient;
+            }
+        }
+
+        private void GeocodeAddress(string address, RoutingState state)
+        {
+            var request = new GeocodeRequest();
+            request.Culture = MyMap.Culture;
+            request.Query = address;
+            // Don't raise exceptions.
+            request.ExecutionOptions = new ExecutionOptions();
+            request.ExecutionOptions.SuppressFaults = true;
+
+            // Only accept results with high confidence.
+            request.Options = new GeocodeOptions();
+            // Using ObservableCollection since this is the default for Silverlight proxy generation.
+            request.Options.Filters = new ObservableCollection<FilterBase>();
+            var filter = new ConfidenceFilter();
+            filter.MinimumConfidence = Confidence.High;
+            request.Options.Filters.Add(filter);
+
+            if (null != state.output)
+            {
+                state.output.Text = "<geocoding in progress>";
+                state.output.Foreground = new SolidColorBrush(Colors.Black);
+            }
+
+            MyMap.CredentialsProvider.GetCredentials(
+                (Credentials credentials) =>
+                {
+                    // Pass in credentials for web services call.
+                    //Replace with your own Credentials.
+                    request.Credentials = credentials;
+
+                    // Make asynchronous call to fetch the data ... pass state object.
+                    GeocodeClient.GeocodeAsync(request, state);
+                });
+        }
+
+        private object lockObject = new object();
+        private void client_GeocodeCompleted(object sender, PlatformServices.GeocodeCompletedEventArgs e)
+        {
+            RoutingState state = e.UserState as RoutingState;
+            PlatformServices.GeocodeResult result = null;
+            string outString;
+
+            try
+            {
+                if (e.Result.ResponseSummary.StatusCode != PlatformServices.ResponseStatusCode.Success)
+                {
+                    outString = "error geocoding ... status <" + e.Result.ResponseSummary.StatusCode.ToString() + ">";
+                }
+                else if (0 == e.Result.Results.Count)
+                {
+                    outString = "No result";
+                }
+                else
+                {
+                    // Only report on first result.
+                    result = e.Result.Results[0];
+                    outString = result.DisplayName;
+                }
+            }
+            catch (Exception)
+            {
+                outString = "Exception raised";
+            }
+
+            // Update UI with geocode result.
+            if (null != state.output)
+            {
+                state.output.Text = outString;
+            }
+
+            if (null == result)
+            {
+                result = new PlatformServices.GeocodeResult();
+            }
+
+            // Update state object ... when all the results are set, call route.
+            bool doneGeocoding;
+            lock (lockObject)
+            {
+                state.results[state.locationNumber] = result;
+                doneGeocoding = state.GeocodesComplete;
+            }
+
+            if (doneGeocoding && state.GeocodesSuccessful)
+            {
+                //Clear any existing routes
+                ClearRoute();
+
+                //Calculate the route
+                CalculateRoute(state.results);
+            }
+        }
+
+        private PlatformServices.Waypoint GeocodeResultToWaypoint(PlatformServices.GeocodeResult result)
+        {
+            PlatformServices.Waypoint waypoint = new PlatformServices.Waypoint();
+            waypoint.Description = result.DisplayName;
+            waypoint.Location = new Location();
+            waypoint.Location.Latitude = result.Locations[0].Latitude;
+            waypoint.Location.Longitude = result.Locations[0].Longitude;
+            return waypoint;
+        }
+
+        private void CalculateRoute(PlatformServices.GeocodeResult[] locations)
+        {
+            PlatformServices.RouteRequest request = new PlatformServices.RouteRequest();
+            request.Culture = MyMap.Culture;
+            request.Waypoints = new ObservableCollection<MapControlInteractiveSdk.PlatformServices.Waypoint>();
+            foreach (PlatformServices.GeocodeResult result in locations)
+            {
+                request.Waypoints.Add(GeocodeResultToWaypoint(result));
+            }
+
+            // Don't raise exceptions.
+            request.ExecutionOptions = new PlatformServices.ExecutionOptions();
+            request.ExecutionOptions.SuppressFaults = true;
+
+            // Only accept results with high confidence.
+            request.Options = new PlatformServices.RouteOptions();
+            request.Options.RoutePathType = PlatformServices.RoutePathType.Points;
+
+            // Now that both locations were found ... use "to" for routing update.
+            FromOutput.Text += " --> " + ToOutput.Text;
+            ToOutput.Text += " ... <routing>";
+
+            MyMap.CredentialsProvider.GetCredentials(
+                (Credentials credentials) =>
+                {
+                    //Pass in credentials for web services call.
+                    //Replace with your own Credentials.
+                    request.Credentials = credentials;
+
+                    // Make asynchronous call to fetch the data ... pass state object.
+                    RouteClient.CalculateRouteAsync(request);
+                });
+        }
+
+        private void ClearRoute()
+        {
+            //Deregister events for the children layer items that had events
+            foreach (UIElement child in RouteLayer.Children)
+            {
+                Ellipse point = child as Ellipse;
+                if (point != null)
+                {
+                    point.MouseEnter -= point_MouseEnter;
+                    point.MouseLeave -= point_MouseLeave;
+                }
+            }
+
+            //Clear any existing routes
+            RouteLayer.Children.Clear();
+        }
+
+        private void client_RouteCompleted(object sender, PlatformServices.CalculateRouteCompletedEventArgs e)
+        {
+            string outString;
+            try
+            {
+                if (e.Result.ResponseSummary.StatusCode != PlatformServices.ResponseStatusCode.Success)
+                {
+                    outString = "error routing ... status <" + e.Result.ResponseSummary.StatusCode.ToString() + ">";
+                }
+                else if (0 == e.Result.Result.Legs.Count)
+                {
+                    outString = "Cannot find route";
+                }
+                else
+                {
+                    Color routeColor = Colors.Blue;
+                    SolidColorBrush routeBrush = new SolidColorBrush(routeColor);
+                    outString = "Found route ... coloring route";
+                    ToOutput.Foreground = routeBrush;
+                    MapPolyline routeLine = new MapPolyline();
+                    routeLine.Locations = new LocationCollection();
+                    routeLine.Stroke = routeBrush;
+                    routeLine.Opacity = 0.65;
+                    routeLine.StrokeThickness = 5.0;
+                    foreach (Location p in e.Result.Result.RoutePath.Points)
+                    {
+                        routeLine.Locations.Add(new Location(p.Latitude, p.Longitude));
+                    }
+                    RouteLayer.Children.Add(routeLine);
+                    LocationRect rect = new LocationRect(routeLine.Locations[0], routeLine.Locations[routeLine.Locations.Count - 1]);
+
+                    foreach (PlatformServices.ItineraryItem itineraryItem in e.Result.Result.Legs[0].Itinerary)
+                    {
+                        Ellipse point = new Ellipse();
+                        point.Width = 10;
+                        point.Height = 10;
+                        point.Fill = new SolidColorBrush(Colors.Red);
+                        point.Opacity = 0.65;
+                        Location location = new Location(itineraryItem.Location.Latitude, itineraryItem.Location.Longitude);
+                        MapLayer.SetPosition(point, location);
+                        MapLayer.SetPositionOrigin(point, PositionOrigin.Center);
+                        point.Tag = itineraryItem;
+                        point.MouseEnter += new System.Windows.Input.MouseEventHandler(point_MouseEnter);
+                        point.MouseLeave += new System.Windows.Input.MouseEventHandler(point_MouseLeave);
+
+                        RouteLayer.Children.Add(point);
+                    }
+
+                    MyMap.SetView(rect);
+                }
+            }
+            catch (Exception)
+            {
+                outString = "Exception raised routine";
+            }
+
+            ToOutput.Text = outString;
+
+        }
+
+        void point_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            //Show a popup with data about that point
+            Ellipse pin = sender as Ellipse;
+            if (pin != null)
+            {
+                PlatformServices.ItineraryItem itineraryItem = pin.Tag as PlatformServices.ItineraryItem;
+                if (itineraryItem != null)
+                {
+                    Location location = new Location(itineraryItem.Location.Latitude, itineraryItem.Location.Longitude);
+                    MapLayer.SetPosition(ContentPopup, location);
+                    MapLayer.SetPositionOffset(ContentPopup, new Point(15, -50));
+
+                    string contentString = itineraryItem.Text;
+                    //Remove tags from the string
+                    Regex regex = new Regex("<(.|\n)*?>");
+                    contentString = regex.Replace(contentString, string.Empty);
+                    ContentPopupText.Text = contentString;
+                    ContentPopup.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
+        void point_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            //Hide the popup
+            Ellipse point = sender as Ellipse;
+            ContentPopup.Visibility = Visibility.Collapsed;
+        }
+
+        private void ContentPopup_MouseEnter(object sender, MouseEventArgs e)
+        {
+            //Show the popup
+            ContentPopup.Visibility = Visibility.Visible;
+            Canvas.SetZIndex(ContentPopup, 10);
+        }
+
+        private void ContentPopup_MouseLeave(object sender, MouseEventArgs e)
+        {
+            //Show the popup
+            ContentPopup.Visibility = Visibility.Collapsed;
+        }
+
+        private void GetRoute()
+        {
+            bool errorFound = false;
+
+            if (string.IsNullOrEmpty(ToInput.Text))
+            {
+                ToOutput.Text = "missing address";
+                errorFound = true;
+            }
+            if (string.IsNullOrEmpty(FromInput.Text))
+            {
+                FromOutput.Text = "missing address";
+                errorFound = true;
+            }
+            if (errorFound)
+            {
+                return;
+            }
+
+            // Geocode locations in parallel.
+            PlatformServices.GeocodeResult[] results = new PlatformServices.GeocodeResult[2];
+            // From location.
+            RoutingState state0 = new RoutingState(results, 0, FromOutput);
+            GeocodeAddress(FromInput.Text, state0);
+            // To location.
+            RoutingState state1 = new RoutingState(results, 1, ToOutput);
+            GeocodeAddress(ToInput.Text, state1);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            GetRoute();
+        }
+
+        private void ToInput_GotFocus(object sender, RoutedEventArgs e)
+        {
+            ToInput.SelectAll();
+        }
+
+        private void FromInput_GotFocus(object sender, RoutedEventArgs e)
+        {
+            FromInput.SelectAll();
+        }
+
+        private void Input_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                GetRoute();
+            }
+        }
+    }
+
+    internal class RoutingState
+    {
+        internal RoutingState(PlatformServices.GeocodeResult[] resultArray, int index, TextBlock tb)
+        {
+            results = resultArray;
+            locationNumber = index;
+            output = tb;
+        }
+
+        internal bool GeocodesComplete
+        {
+            get
+            {
+                for (int idx = 0; idx < results.Length; idx++)
+                {
+                    if (null == results[idx])
+                        return false;
+                }
+                return true;
+            }
+        }
+
+        internal bool GeocodesSuccessful
+        {
+            get
+            {
+                for (int idx = 0; idx < results.Length; idx++)
+                {
+                    if (null == results[idx] || null == results[idx].Locations || 0 == results[idx].Locations.Count)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+        internal PlatformServices.GeocodeResult[] results;
+        internal int locationNumber;
+        internal TextBlock output;
+    }
+
+}

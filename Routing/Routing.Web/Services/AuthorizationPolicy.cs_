@@ -1,0 +1,139 @@
+﻿using System;
+using System.IdentityModel.Policy;
+using System.ServiceModel.Dispatcher;
+using System.IdentityModel.Claims;
+using System.Security.Principal;
+using System.Collections.Generic;
+using System.Web;
+
+namespace Routing.Web.Services
+{
+    // http://www.leastprivilege.com/CustomPrincipalsAndWCF.aspx
+    // http://milestone.topics.it/2011/12/wcf-iauthorizationpolicy_02.html
+    // http://msdn.microsoft.com/en-us/magazine/cc948343.aspx
+    // http://www.devx.com/codemag/Article/33342/0/page/3
+    public class AspNetAuthorizationPolicy : IAuthorizationPolicy
+    {
+        //public bool Evaluate_Mauro(EvaluationContext evaluationContext, ref object state)
+        //{
+        //    if (!evaluationContext.ContainsIdentity())
+        //    {
+        //        evaluationContext.SetPrincipal(Helper.GetAnonymousIdentity());
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
+        public bool Evaluate(EvaluationContext evaluationContext, ref object state)
+        {
+            try
+            {
+                var principal = Helper.GetFormsAuthenticationIdentity();
+                evaluationContext.SetPrincipal(principal);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public ClaimSet Issuer
+        {
+            get { return new DefaultClaimSet(); }
+        }
+
+        public string Id
+        {
+            get { return new Guid("4C40F46C-279E-45A4-9813-C74F822A92C5").ToString(); }
+        }
+    }
+
+    public static class Helper
+    {
+        public static IPrincipal GetAnonymousIdentity()
+        {
+            var identity= new GenericIdentity("");
+            return new GenericPrincipal(identity, null);
+        }
+
+        public static IPrincipal GetFormsAuthenticationIdentity()
+        {
+            return HttpContext.Current.User;
+        }
+    }
+    public static class EvaluationContext_Extensions
+    {
+       
+        public static bool ContainsIdentity(this EvaluationContext context)
+        {
+            return false;
+
+            object obj;
+            if (!context.Properties.TryGetValue("Identities", out obj))
+                throw new Exception("No Identity found");
+
+            var identities = obj as IList<IIdentity>;
+            if (identities == null || identities.Count <= 0)
+                throw new Exception("No Identity found");
+
+            //return identities[0];
+
+        }
+
+
+        public static void SetPrincipal(this EvaluationContext context, IPrincipal principal)
+        {
+             context.Properties["Principal"] = principal;
+        }
+    }
+
+
+
+
+    // facoltativo, ispeziona messaggio ed emette policy
+    // http://msdn.microsoft.com/en-us/library/ms730079.aspx
+    public class MySecurityTokenAuthenticator  :System.IdentityModel.Selectors.SecurityTokenAuthenticator
+    {
+
+        protected override bool CanValidateTokenCore(System.IdentityModel.Tokens.SecurityToken token)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override System.Collections.ObjectModel.ReadOnlyCollection<IAuthorizationPolicy> ValidateTokenCore(System.IdentityModel.Tokens.SecurityToken token)
+        {
+            throw new NotImplementedException();
+        } 
+    }
+
+    // ancora più su nella catena
+    public class MyServiceCredentialsSecurityTokenManager : System.ServiceModel.Security.ServiceCredentialsSecurityTokenManager
+    {
+        public MyServiceCredentialsSecurityTokenManager(System.ServiceModel.Description.ServiceCredentials parent) :base(parent)
+        {}
+        public override System.IdentityModel.Selectors.SecurityTokenAuthenticator CreateSecurityTokenAuthenticator(System.IdentityModel.Selectors.SecurityTokenRequirement tokenRequirement, out System.IdentityModel.Selectors.SecurityTokenResolver outOfBandTokenResolver)
+        {
+            return base.CreateSecurityTokenAuthenticator(tokenRequirement, out outOfBandTokenResolver);
+        }
+    }
+
+
+    public class CustomInstanceProvider : IInstanceProvider
+    {
+        public object GetInstance(System.ServiceModel.InstanceContext instanceContext, System.ServiceModel.Channels.Message message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetInstance(System.ServiceModel.InstanceContext instanceContext)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReleaseInstance(System.ServiceModel.InstanceContext instanceContext, object instance)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

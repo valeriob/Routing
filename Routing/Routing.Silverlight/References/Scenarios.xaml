@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="Routing.Silverlight.References.Scenarios"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+           xmlns:commonBehavior="clr-namespace:Silverlight.Common.Behaviors;assembly=Silverlight.Common"
+           mc:Ignorable="d"
+           xmlns:localModel="clr-namespace:Silverlight.Common.DynamicSearch;assembly=Silverlight.Common"
+             xmlns:commonControls ="clr-namespace:Silverlight.Common.Controls;assembly=Silverlight.Common"
+           xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+           xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+           d:DesignWidth="900" d:DesignHeight="380"
+                   
+           xmlns:common="clr-namespace:Silverlight.Common.Controls;assembly=Silverlight.Common"
+           xmlns:local="clr-namespace:Silverlight.Common.DynamicSearch;assembly=Silverlight.Common"
+           xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit"
+           xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
+    
+    <!--
+      d:DataContext="{d:DesignInstance Type=localModel:DesignEntitySearchViewModel,IsDesignTimeCreatable=True}"
+    -->
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Margin" Value="10,0,10,0" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Width" Value="120" />
+        </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="Margin" Value="3" />
+        </Style>
+
+
+    </UserControl.Resources>
+    
+    <toolkit:BusyIndicator IsBusy="{Binding IsBusy}">
+        <Grid x:Name="LayoutRoot" Background="Transparent" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <toolkit:WrapPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="From"/>
+                        <sdk:DatePicker SelectedDate="{Binding From, Mode=TwoWay}">
+                            <!--<interactivity:Interaction.Behaviors>
+                                <commonBehavior:EnterBehavior DestinationButton="{Binding ElementName=buttonSearch}" />
+                                <commonBehavior:SelectTextBehavior />
+                            </interactivity:Interaction.Behaviors>-->
+                        </sdk:DatePicker>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="To"/>
+                        <sdk:DatePicker SelectedDate="{Binding To, Mode=TwoWay}">
+                            <!--<interactivity:Interaction.Behaviors>
+                                <commonBehavior:EnterBehavior DestinationButton="{Binding ElementName=buttonSearch}" />
+                                <commonBehavior:SelectTextBehavior />
+                            </interactivity:Interaction.Behaviors>-->
+                        </sdk:DatePicker>
+                    </StackPanel>
+
+                    <!--<commonControls:F2Control TextPath="Search_Address"  TextChanged="Search_Address_TextChanged" MinWidth="200" />-->
+                </toolkit:WrapPanel>
+                
+                <Button Name="buttonSearch" Grid.Column="1" Content="Cerca" Width="100" VerticalAlignment="Center" Margin="10,0,10,0" Click="searchButton_Click" />
+                
+            </Grid>
+            <sdk:DataGrid  Name="dataGridEntities" Grid.Row="1" AutoGenerateColumns="True" ItemsSource="{Binding Entities}"  SelectedItem="{Binding SelectedEntity, Mode=TwoWay}"
+                        IsReadOnly="True" Margin="5" MouseLeftButtonUp="DataGrid_MouseLeftButtonUp">
+                <sdk:DataGrid.Columns>
+                    
+                </sdk:DataGrid.Columns>
+            </sdk:DataGrid>
+            <common:CustomDataPager Grid.Row="2" Source="{Binding Entities}" Margin="5"  />
+
+        </Grid>
+    </toolkit:BusyIndicator>
+</UserControl>
