@@ -48,6 +48,7 @@ namespace Routing.Domain.Infrastructure
                 //    }
                 //}
             };
+
             documentStore.Initialize();
 
             var generator = new MultiTypeHiLoKeyGenerator(documentStore, 10);
