@@ -29,43 +29,32 @@ namespace Routing.Silverlight.Views
             InitializeComponent();
 
             DataContext = ViewModel = new ScenarioViewModel();
-
-            //MessageBus.Current.Listen<Validation_Canceled>().Subscribe(s => 
-            //{
-            //    validator.Dispose();
-            //});
-            //MessageBus.Current.Listen<Address_Validated>().Subscribe(s => 
-            //{
-            //    validator.Dispose();
-            //    Validating_Location.Location = s.Location;
-            //    Validating_Location.Resolved_Address = s.Address;
-            //    Validating_Location.Search_Address = s.Address.FormattedAddress;
-            //});
         }
 
         private void Search_Address_TextChanged(object sender, global::Silverlight.Common.Controls.TextChangedEventArgs e)
         {
             var control = sender as Control;
             var padri = control.GetVisualAncestors().ToList();
-           // var panel = control.Parent as Panel;
-
-
-            //Validating_Location = control.DataContext as LocationViewModel;
-
-            //validator = new Address_Validation_Helper(parentGrid);
-            //validator.Validate_Address(e.IsSilent, e.Text);
 
             var point = (sender as Control).DataContext as LocationViewModel;
-            if (point.Destination.IsValid && e.IsSilent)
-                return;
-            ViewModel.F2_Location(point, popupAncor, e.IsSilent, e.Text);
+            //if (point.Destination.IsValid && e.IsSilent)
+            //    return;
+            //ViewModel.F2_Location(point, popupAncor, e.IsSilent, e.Text);
+
+            var helper = new Address_Validation_Helper(point.Destination, popupAncor);
+            helper.Validate_Address(e.IsSilent, e.Text).ContinueWith(d => 
+            {
+                System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() => { 
+                    point.Change_Destination(d.Result);
+                });
+            });
         }
 
         private void Destination_TextChanged(object sender, global::Silverlight.Common.Controls.TextChangedEventArgs e)
         {
             var point = (sender as Control).DataContext as LocationViewModel;
-            if (point == null || point.Destination.IsValid && e.IsSilent)
-                return;
+            //if (point == null || point.Destination.IsValid && e.IsSilent)
+            //    return;
             ViewModel.F2_Destination(point,e.IsSilent, e.Text);
         }
 

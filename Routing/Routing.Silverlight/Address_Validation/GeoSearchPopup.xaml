@@ -47,7 +47,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBox  Grid.Column="0" Text="{Binding Search_Address, Mode=TwoWay}" converters:UpdateDataSourceDelayed.UpdateDataSourceDelay="3000" />
+                <TextBox  Grid.Column="0" Text="{Binding Search_Address, Mode=TwoWay}" converters:UpdateDataSourceDelayed.UpdateDataSourceDelay="300" />
                     <!--<Button Grid.Column="1" Content="Search" Click="Search_Button_Pressed" />-->
                     <Button Grid.Column="2" Content="Ok" Click="Conferma_Positione" />
                     <Button Grid.Column="3" Content="Cancel" Click="Cancel" />

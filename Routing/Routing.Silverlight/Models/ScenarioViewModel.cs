@@ -48,7 +48,6 @@ namespace Routing.Silverlight.Models
             if (DesignerProperties.IsInDesignTool)
                 return;
 
-
             var service = ServiceHelper.Simulation_Client();
 
             //Points.Add(new LocationViewModel { Search_Address = "Faenza" });
@@ -62,61 +61,49 @@ namespace Routing.Silverlight.Models
                 Points.Add(new LocationViewModel {  });
             }
 
-            Validate_All();
-
-            MessageBus.Current.Listen<Validation_Canceled>().Subscribe(s =>
-            {
-                validator.Dispose();
-            });
-            MessageBus.Current.Listen<Address_Validated>().Subscribe(s =>
-            {
-                validator.Dispose();
-                Validating_Location.Location = s.Location;
-                Validating_Location.Resolved_Address = s.Address;
-                Validating_Location.Search_Address = s.Address.FormattedAddress;
-                Validating_Location.Validate();
-            });
+            //Validate_All();
         }
 
-        public void Validate_All()
-        {
-            foreach (var point in Points)
-            {
-                if (string.IsNullOrEmpty(point.Destination.Search_Address))
-                    continue;
+        //public void Validate_All()
+        //{
+        //    foreach (var point in Points)
+        //    {
+        //        if (string.IsNullOrEmpty(point.Destination.Display))
+        //            continue;
 
-                Find_Location(point.Destination);
-            }
-        }
+        //        Find_Location(point.Destination);
+        //    }
+        //}
 
 
-        protected void Find_Location(Location_Reference point)
-        {
-            var geocoding = maps.ServiceHelper.GetGeocodeService();
-            geocoding.GeocodeCompleted += (sender, e) =>
-            {
-                var correlated = e.UserState as Location_Reference;
+        //protected void Find_Location(Location_Reference point)
+        //{
+        //    var geocoding = maps.ServiceHelper.GetGeocodeService();
+        //    geocoding.GeocodeCompleted += (sender, e) =>
+        //    {
+        //        var correlated = e.UserState as Location_Reference;
 
-                if (e.Result.Results.Count == 1)
-                    Correct_Position(correlated, e.Result.Results.Single());
-            };
+        //        if (e.Result.Results.Count == 1)
+        //            Correct_Position(correlated, e.Result.Results.Single());
+        //    };
 
-            geocoding.GeocodeAsync(new maps.GeocodeService.GeocodeRequest
-            {
-                Credentials = new Microsoft.Maps.MapControl.Credentials() { Token = maps.ServiceHelper.GeocodeServiceCredentials },
-                Culture = System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
-                Query = point.Search_Address
-            }, point);
-        }
+        //    geocoding.GeocodeAsync(new maps.GeocodeService.GeocodeRequest
+        //    {
+        //        Credentials = new Microsoft.Maps.MapControl.Credentials() { Token = maps.ServiceHelper.GeocodeServiceCredentials },
+        //        Culture = System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
+        //        Query = point.Display
+        //    }, point);
+        //}
 
         protected void Find_Address(Location_Reference location)
         {
             var geocoding = maps.ServiceHelper.GetGeocodeService();
-            geocoding.ReverseGeocodeCompleted += (sender, e) => 
+            geocoding.ReverseGeocodeCompleted += (sender, e) =>
             {
                 var correlated = e.UserState as Location_Reference;
                 if (e.Result.Results.Count == 1)
-                    Correct_Position(correlated, e.Result.Results.Single());
+                    correlated.Resolve_Address(e.Result.Results.Select(s=> s.Address).First());
+                    //Correct_Position(correlated, e.Result.Results.Single());
                 else
                     correlated.Invalidate();
             };
@@ -124,35 +111,41 @@ namespace Routing.Silverlight.Models
             {
                 Credentials = new Microsoft.Maps.MapControl.Credentials() { Token = maps.ServiceHelper.GeocodeServiceCredentials },
                 Culture = System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
-                Location= location.Location
+                Location = location.Location
             }, location);
         }
 
-        protected void Correct_Position(Location_Reference point, GeocodeResult result)
-        {
-            point.Location = result.Locations.First();
-            point.Search_Address = result.Address.FormattedAddress;
-            point.Resolved_Address = result.Address;
-            point.Validate();
-        }
+        //protected void Correct_Position(Location_Reference point, GeocodeResult result)
+        //{
+            
+        //    point.Location = result.Locations.First();
+        //    point.Search_Address = result.Address.FormattedAddress;
+        //    point.Resolved_Address = result.Address;
+        //    point.Validate();
+        //}
 
 
         public void F2_Destination(LocationViewModel sender, bool silent, string text)
         {
             Action onNoResults = () =>
             {
-                sender.Destination = new Location_Reference();
+                sender.Remove_Destination();
             };
             Action onCancel = () =>
             {
             };
             Action<DestinationDto> onOneResult = (destination) =>
             {
-                sender.Destination.Name = destination.Name;
-                sender.Destination.Id = destination.Id;
-                sender.Destination.ExternalId = destination.ExternalId;
+                sender.Change_Destination(destination.ExternalId, destination.Name, new Location(destination.Latitude, destination.Longitude));
+
+                //sender.Destination = new Location_Reference(new Location(destination.Latitude, destination.Longitude), destination.Name, null);
+
+                //sender.Destination.Name = destination.Name;
+                //sender.Destination.Id = destination.Id;
+                //sender.Destination.ExternalId = destination.ExternalId;
                 //sender.Destination.Validate();
-                sender.Destination.Location = new Location(destination.Latitude, destination.Longitude);
+                //sender.Destination.Location = new Location(destination.Latitude, destination.Longitude);
+                
                 Find_Address(sender.Destination);
             };
             if ((silent && string.IsNullOrWhiteSpace(text)))
@@ -167,32 +160,41 @@ namespace Routing.Silverlight.Models
         }
 
 
-        public Location_Reference Validating_Location { get; set; }
-        Address_Validation_Helper validator;
-        public void F2_Location(LocationViewModel sender, Panel panel, bool silent, string text)
-        {
-           
-            Validating_Location = sender.Destination;
-            validator = new Address_Validation_Helper(panel);
-            validator.Validate_Address(silent, text).ContinueWith(c => 
-            {
-                if (c.IsCanceled)
-                    validator.Manually_Validate_Address(text).ContinueWith(v => { Validate(v.Result); });
-                else
-                    Validate(c.Result);
-            });
-        }
+        //public Location_Reference Validating_Location { get; set; }
+        //bool validating;
+        //public void F2_Location(LocationViewModel sender, Panel panel, bool silent, string text)
+        //{
+        //    if (validating)
+        //        return;
+        //    validating = true;
 
-        protected void Validate(Address_Validated result)
-        {
-            System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-                Validating_Location.Location = result.Location;
-                Validating_Location.Resolved_Address = result.Address;
-                Validating_Location.Search_Address = result.Address.FormattedAddress;
-                Validating_Location.Validate();
-            });
-        }
+        //    Validating_Location = sender.Destination;
+        //    var validator = new Address_Validation_Helper(panel);
+        //    if(silent)
+        //        validator.Automatically_Validate_Address( text).ContinueWith(c => 
+        //        {
+        //            if (c.IsCanceled || c.Result == null)
+        //                validator.Manually_Validate_Address(text).ContinueWith(v => { Validate(v.Result); });
+        //            else
+        //                Validate(c.Result);
+        //        });
+        //    else
+        //        validator.Manually_Validate_Address(text).ContinueWith(v => { Validate(v.Result); });
+        //}
+
+        //protected void Validate(Address_Validated result)
+        //{
+        //    validating = false;
+        //    if (result == null)
+        //        return;
+        //    System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() =>
+        //    {
+        //        Validating_Location.Location = result.Location;
+        //        Validating_Location.Resolved_Address = result.Address;
+        //        Validating_Location.Search_Address = result.Address.FormattedAddress;
+        //        Validating_Location.Validate();
+        //    });
+        //}
 
 
         public void Carica()
@@ -224,7 +226,7 @@ namespace Routing.Silverlight.Models
                         Delivering = p.Shipping, 
                            
                         DestinationId = p.Destination.Id,
-                        DestinationExternalId = p.Destination.ExternalId,
+                        DestinationExternalId = p.Destination.Id,
 
                         Latitude = p.Destination.Location.Latitude,
                         Longitude = p.Destination.Location.Longitude, 

@@ -21,26 +21,48 @@ namespace Routing.Silverlight.Address_Validation
         Popup Popup;
         Panel Parent;
         GeoSearchPopup SearchControl;
+        Location_Reference Location;
 
-        public Address_Validation_Helper(Panel parent)
+        public Address_Validation_Helper(Location_Reference location, Panel parent)
         {
+            Location = location;
+            Parent = parent;
+
             SearchControl = new GeoSearchPopup();
             Popup = new Popup { Child = SearchControl };
             parent.Children.Add(Popup);
-            Parent = parent;
         }
 
-        public Task<Address_Validated> Validate_Address(bool silent, string textAddress)
+
+        public Task<Address_Validated> Validate_Address(bool silent, string text)
         {
-            if (silent)
-            {
-                return Manually_Validate_Address(textAddress);
-            }
-            else
-            {
-                return Automatically_Validate_Address(textAddress);
-            }
+            return Task.Factory.StartNew(() =>
+                {
+                    if (silent)
+                        return Automatically_Validate_Address(text).ContinueWith(c =>
+                        {
+                            if (c.IsCanceled)
+                                return Manually_Validate_Address(text).Result;
+                            else
+                                return c.Result;
+                        }).Result;
+                    else
+                        return Manually_Validate_Address(text).ContinueWith(v => { return v.Result; }).Result;
+                }).ContinueWith(t => 
+                {
+                    Dispose();
+                    return t.Result;
+                });
         }
+
+
+        //public Task<Address_Validated> Validate_Address(bool silent, string textAddress)
+        //{
+        //    if (silent)
+        //        return Manually_Validate_Address(textAddress);
+        //    else
+        //        return Automatically_Validate_Address(textAddress);
+        //}
 
         public Task<Address_Validated> Manually_Validate_Address(string textAddress)
         {
@@ -50,15 +72,21 @@ namespace Routing.Silverlight.Address_Validation
                 Popup.Child.Focus();
             });
 
-            return SearchControl.ViewModel.Search(textAddress);
-            //    .ContinueWith(f => 
-            //{
-            //    System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() =>
-            //    {
-            //        Popup.IsOpen = false;
-            //    });
-            //    return f.Result;
-            //});
+            //var tokenSource = new System.Threading.CancellationTokenSource();
+            
+            return SearchControl.ViewModel.Search(textAddress)
+                .ContinueWith(f => 
+                {
+                    System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    {
+                        Popup.IsOpen = false;
+                    });
+
+                    if (f.IsCanceled)
+                        return null;
+
+                    return f.Result;
+                });
         }
 
 
@@ -72,7 +100,7 @@ namespace Routing.Silverlight.Address_Validation
                 //if (e.Error != null)
                 //    tcs.SetCanceled();
 
-                if (e.Error == null && e.Result.Results.Count == 1)
+                if (e.Error == null && e.Result.Results.GroupBy(f=> f.Address.FormattedAddress).Count() == 1)
                 {
                     var validated = new Address_Validated(e.Result.Results.First(), null);
                     //MessageBus.Current.SendMessage(new Address_Validated(e.Result.Results.First(), search_Address));
@@ -99,10 +127,13 @@ namespace Routing.Silverlight.Address_Validation
 
         public void Dispose()
         {
-            Popup.IsOpen = false;
-            Parent.Children.Remove(Popup);
-            Popup = null;
-            Parent = null;
+            System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                Popup.IsOpen = false;
+                Parent.Children.Remove(Popup);
+                Popup = null;
+                Parent = null;
+            });
         }
     }
     

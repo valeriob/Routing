@@ -105,6 +105,22 @@
 
 
         <Grid Grid.Column="1" Grid.Row="1" DataContext="{Binding SelectedPoint}">
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter  Property="Margin" Value="3"  />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter  Property="Margin" Value="3" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Width" Value="200" />
+                </Style>
+                <Style TargetType="sdk:DatePicker">
+                    <Setter  Property="Margin" Value="3" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Width" Value="200" />
+                </Style>
+            </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -114,42 +130,77 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Row="0" Text="{Binding ExternalReference, Mode=TwoWay}" />
+         
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Data"/>
+            <TextBox   Grid.Row="0" Grid.Column="1"  Text="{Binding ExternalReference, Mode=TwoWay}" />
 
-            <sdk:DatePicker Grid.Row="1" SelectedDate="{Binding Shipping, Mode=TwoWay}" />
 
-            <StackPanel Grid.Row="2" Orientation="Horizontal">
-                <TextBlock Text="Quantità : "/>
-                <TextBox Text="{Binding Amount.Value, Mode=TwoWay}" Width="100"/>
-            </StackPanel>
 
-            <StackPanel Grid.Row="3" Orientation="Horizontal">
-                <TextBlock Text="Unità di misura : "/>
-                <TextBox  Text="{Binding Amount.Unit, Mode=TwoWay}" Width="100" />
-            </StackPanel>
+            <TextBlock      Grid.Row="1" Grid.Column="0"           Text="Data"/>
+            <sdk:DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding Shipping, Mode=TwoWay}" />
 
-            <StackPanel Grid.Row="4" Orientation="Horizontal">
-                <TextBlock Text="Destination : "/>
 
+            <TextBlock Grid.Row="2" Grid.Column="0"  Text="Quantità : "/>
+            <TextBox   Grid.Row="2" Grid.Column="1"  Text="{Binding Amount.Value, Mode=TwoWay}" />
+
+
+            <TextBlock Grid.Row="3" Grid.Column="0"   Text="Unità di misura : "/>
+            <TextBox   Grid.Row="3" Grid.Column="1" Text="{Binding Amount.Unit, Mode=TwoWay}" />
+
+            <Border Grid.Row="4" Grid.ColumnSpan="2" BorderBrush="AliceBlue" BorderThickness="10" >
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Destinatione" HorizontalAlignment="Center" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Rif. Esterno : "/>
+                    <TextBox  Grid.Row="1" Grid.Column="1" Text="{Binding Destination.Id, Mode=TwoWay}" Width="222"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Destinazione : "/>
+                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                        <commonControls:F2Control  TextPath="Destination.Name"  TextChanged="Destination_TextChanged"  />
+                        <!--<CheckBox IsChecked="{Binding Destination.IsValid}" IsEnabled="False" VerticalAlignment="Center" />-->
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Indirizzo : "/>
+                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                        <commonControls:F2Control TextPath="Destination.Display"  TextChanged="Search_Address_TextChanged"  />
+                        <!--<CheckBox IsChecked="{Binding Destination.IsValid}" IsEnabled="False" VerticalAlignment="Center" />-->
+                    </StackPanel>
+
+                </Grid>
+            </Border>
+
+            <!--<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
                 <StackPanel>
                     <TextBox  Text="{Binding Destination.ExternalId, Mode=TwoWay}" />
-                    <!--<ContentControl Grid.Row="5" ContentTemplate="{StaticResource referenceTemplate}" Content="{Binding}" />-->
-
-                    <!--<ContentControl Grid.Row="6" ContentTemplate="{StaticResource locationTemplate}" Content="{Binding}" />-->
-
                     <StackPanel Orientation="Horizontal">
                         <commonControls:F2Control  TextPath="Destination.Name"  TextChanged="Destination_TextChanged" MinWidth="200" />
                         <CheckBox IsChecked="{Binding Destination.IsValid}" IsEnabled="False" VerticalAlignment="Center" />
                     </StackPanel>
-                    
+                  
                     <StackPanel Orientation="Horizontal">
                         <commonControls:F2Control TextPath="Destination.Search_Address"  TextChanged="Search_Address_TextChanged" MinWidth="200" />
                         <CheckBox IsChecked="{Binding Destination.IsValid}" IsEnabled="False" VerticalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
                 
-            </StackPanel>
+            </StackPanel>-->
             
             <StackPanel x:Name="popupAncor" Grid.Row="5">
 

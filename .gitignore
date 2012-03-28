@@ -9,6 +9,7 @@ Local.*
 *.vsmdi
 *.testsettings
 *.cache
+Routing/Routing.suo
 
 
 # Build results
