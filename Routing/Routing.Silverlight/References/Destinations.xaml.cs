@@ -55,8 +55,8 @@ namespace Routing.Silverlight.References
             var padri = control.GetVisualAncestors().ToList();
             var parentGrid = control.Parent as Panel;
 
-            validator = new Address_Validation_Helper(parentGrid);
-            validator.Validate_Address(e.IsSilent, e.Text);
+            //validator = new Address_Validation_Helper(parentGrid);
+            //validator.Validate_Address(e.IsSilent, e.Text);
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)

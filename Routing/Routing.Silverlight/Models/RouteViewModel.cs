@@ -20,12 +20,8 @@ namespace Routing.Silverlight.Models
 
             foreach (var point in points)
             {
-                Locations.Add(new Location_Reference
-                {
-                    Location = new Microsoft.Maps.MapControl.Location {  Latitude = point.Latitude, Longitude = point.Longitude }, 
-
-                   // Display = point.Text
-                });
+                Locations.Add(new Location_Reference(new Microsoft.Maps.MapControl.Location { Latitude = point.Latitude, Longitude = point.Longitude }));
+                
             }
 
         }

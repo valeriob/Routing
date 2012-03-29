@@ -45,7 +45,7 @@ namespace Silverlight.Common
             {
                 var textBox = (TextBox)obj;
                 textBox.TextChanged += (from, ev) => PropertyChanged(textBox, TextBox.TextProperty);
-                textBox.KeyUp += (from, ev) => ForceDataBind(textBox, TextBox.TextProperty);
+                //textBox.KeyUp += (from, ev) => ForceDataBind(textBox, TextBox.TextProperty);
             }
             else if (obj is DatePicker)
             {

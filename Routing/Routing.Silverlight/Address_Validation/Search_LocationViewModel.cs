@@ -113,14 +113,14 @@ namespace Routing.Silverlight.Address_Validation
 
         public void Initialize(string searchAddress)
         {
-            Search_Address = searchAddress;
+            System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() => { Search_Address = searchAddress; });
         }
 
         TaskCompletionSource<Address_Validated> Task;
         public Task<Address_Validated> Search(string searchAddress)
         {
             Task = new TaskCompletionSource<Address_Validated>();
-
+            Initialize(searchAddress);
             return Task.Task;
         }
 
@@ -164,7 +164,7 @@ namespace Routing.Silverlight.Address_Validation
             var geocoding = maps.ServiceHelper.GetGeocodeService();
             geocoding.ReverseGeocodeCompleted += (sender, e) =>
             {
-                SelectedResult = e.Result.Results.SingleOrDefault(); ;
+                SelectedResult = e.Result.Results.SingleOrDefault(); 
             };
 
             geocoding.ReverseGeocodeAsync(new maps.GeocodeService.ReverseGeocodeRequest
@@ -195,6 +195,9 @@ namespace Routing.Silverlight.Address_Validation
             var geocoding = maps.ServiceHelper.GetGeocodeService();
             geocoding.GeocodeCompleted += (sender, e) =>
             {
+                if (e.Error != null)
+                    return;
+
                 GeocodeResult.Clear();
                 foreach (var item in e.Result.Results)
                     GeocodeResult.Add(item);
