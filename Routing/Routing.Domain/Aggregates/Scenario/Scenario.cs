@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Routing.Domain.ValueObjects;
 
+
 namespace Routing.Domain.Aggregates
 {
     public class Scenario : INamedDocument
@@ -28,6 +29,9 @@ namespace Routing.Domain.Aggregates
         protected List<Order> _Orders;
         public IEnumerable<Order> Orders { get { return _Orders ?? (_Orders = new List<Order>()); } set { _Orders = value as List<Order>; } }
 
+        public IEnumerable<Distance> Distances { get; set; }
+
+
         protected List<Simulation> _Simulations;
         public IEnumerable<Simulation> Simulations { get { return _Simulations ??(_Simulations = new List<Simulation>()); } }
 
@@ -35,6 +39,9 @@ namespace Routing.Domain.Aggregates
         {
             Deleted = DateTime.Now;
         }
+
+
+        
 
         
     }

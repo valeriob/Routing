@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aggregates\Scenario\Distance.cs" />
     <Compile Include="Aggregates\Scenario\Order.cs" />
     <Compile Include="Aggregates\Scenario\Voyage.cs" />
     <Compile Include="Aggregates\User\Identity.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Dto\DestinationDto.cs" />
     <Compile Include="Dto\Command\Update_Scenario.cs" />
     <Compile Include="Dto\Command\Register_New_User.cs" />
+    <Compile Include="Dto\DistanceDto.cs" />
     <Compile Include="Dto\Events\Scenario_Deleted.cs" />
     <Compile Include="Dto\Events\Scenario_Created.cs" />
     <Compile Include="Dto\Extensions.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="ValueObjects\Unit.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Aggregates\Distances\" />
     <Folder Include="Aggregates\Simulation\" />
     <Folder Include="Sagas\" />
   </ItemGroup>

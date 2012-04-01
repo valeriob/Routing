@@ -67,6 +67,8 @@ namespace Routing.Silverlight.ScenarioService {
         
         private System.DateTime DateField;
         
+        private System.Collections.ObjectModel.ObservableCollection<Routing.Silverlight.ScenarioService.DistanceDto> DistancesField;
+        
         private string IdField;
         
         private string NameField;
@@ -86,6 +88,19 @@ namespace Routing.Silverlight.ScenarioService {
                 if ((this.DateField.Equals(value) != true)) {
                     this.DateField = value;
                     this.RaisePropertyChanged("Date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.ObjectModel.ObservableCollection<Routing.Silverlight.ScenarioService.DistanceDto> Distances {
+            get {
+                return this.DistancesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DistancesField, value) != true)) {
+                    this.DistancesField = value;
+                    this.RaisePropertyChanged("Distances");
                 }
             }
         }
@@ -151,6 +166,111 @@ namespace Routing.Silverlight.ScenarioService {
                 if ((object.ReferenceEquals(this.UserIdField, value) != true)) {
                     this.UserIdField = value;
                     this.RaisePropertyChanged("UserId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DistanceDto", Namespace="http://schemas.datacontract.org/2004/07/Routing.Domain.Dto")]
+    public partial class DistanceDto : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private double From_LatitideField;
+        
+        private double From_LongitudeField;
+        
+        private double KmField;
+        
+        private double TimeInSecondsField;
+        
+        private double To_LatitideField;
+        
+        private double To_LongitudeField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double From_Latitide {
+            get {
+                return this.From_LatitideField;
+            }
+            set {
+                if ((this.From_LatitideField.Equals(value) != true)) {
+                    this.From_LatitideField = value;
+                    this.RaisePropertyChanged("From_Latitide");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double From_Longitude {
+            get {
+                return this.From_LongitudeField;
+            }
+            set {
+                if ((this.From_LongitudeField.Equals(value) != true)) {
+                    this.From_LongitudeField = value;
+                    this.RaisePropertyChanged("From_Longitude");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Km {
+            get {
+                return this.KmField;
+            }
+            set {
+                if ((this.KmField.Equals(value) != true)) {
+                    this.KmField = value;
+                    this.RaisePropertyChanged("Km");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double TimeInSeconds {
+            get {
+                return this.TimeInSecondsField;
+            }
+            set {
+                if ((this.TimeInSecondsField.Equals(value) != true)) {
+                    this.TimeInSecondsField = value;
+                    this.RaisePropertyChanged("TimeInSeconds");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double To_Latitide {
+            get {
+                return this.To_LatitideField;
+            }
+            set {
+                if ((this.To_LatitideField.Equals(value) != true)) {
+                    this.To_LatitideField = value;
+                    this.RaisePropertyChanged("To_Latitide");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double To_Longitude {
+            get {
+                return this.To_LongitudeField;
+            }
+            set {
+                if ((this.To_LongitudeField.Equals(value) != true)) {
+                    this.To_LongitudeField = value;
+                    this.RaisePropertyChanged("To_Longitude");
                 }
             }
         }

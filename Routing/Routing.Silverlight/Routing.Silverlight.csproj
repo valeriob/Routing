@@ -258,20 +258,20 @@
     <None Include="Service References\ScenarioService\Routing.Silverlight.ScenarioService.ScenarioDto.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\ScenarioService\Scenario.wsdl" />
-    <None Include="Service References\ScenarioService\Scenario.xsd">
+    <None Include="Service References\ScenarioService\Scenario1.wsdl" />
+    <None Include="Service References\ScenarioService\Scenario5.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ScenarioService\Scenario1.xsd">
+    <None Include="Service References\ScenarioService\Scenario51.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ScenarioService\Scenario2.xsd">
+    <None Include="Service References\ScenarioService\Scenario52.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ScenarioService\Scenario3.xsd">
+    <None Include="Service References\ScenarioService\Scenario53.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ScenarioService\Scenario4.xsd">
+    <None Include="Service References\ScenarioService\Scenario54.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ServiceReferences\References.wsdl" />
@@ -311,13 +311,13 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\ScenarioService\Scenario.disco" />
     <None Include="Service References\ScenarioService\configuration91.svcinfo" />
     <None Include="Service References\ScenarioService\configuration.svcinfo" />
     <None Include="Service References\ScenarioService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Service References\ScenarioService\Scenario1.disco" />
     <Content Include="ServiceReferences.ClientConfig" />
     <None Include="Service References\SimulationService\SimulationService1.xsd">
       <SubType>Designer</SubType>

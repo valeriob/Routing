@@ -117,6 +117,12 @@
     <Compile Include="Code\DelayedAction.cs" />
     <Compile Include="Code\Semaphore.cs" />
     <Compile Include="Code\ThicknessWrapper.cs" />
+    <Compile Include="Combinatorics\Combinations.cs" />
+    <Compile Include="Combinatorics\GenerateOption.cs" />
+    <Compile Include="Combinatorics\IMetaCollection.cs" />
+    <Compile Include="Combinatorics\Permutations.cs" />
+    <Compile Include="Combinatorics\SmallPrimeUtility.cs" />
+    <Compile Include="Combinatorics\Variations.cs" />
     <Compile Include="Controls\ActionQueue\ActionQueue.xaml.cs">
       <DependentUpon>ActionQueue.xaml</DependentUpon>
     </Compile>

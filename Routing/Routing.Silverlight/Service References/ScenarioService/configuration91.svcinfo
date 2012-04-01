@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="FqOKMs/6+53lxcRF/4cVvPxOh+c=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="wIGEADi5MJ99gQCFIdQMQGvKgm4=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IScenario">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_IScenario" contract="ScenarioService.IScenario" bindingType="basicHttpBinding" address="http://localhost/Routing/Services/Scenario.svc" bindingConfiguration="BasicHttpBinding_IScenario">
+    <endpoint name="BasicHttpBinding_IScenario" contract="ScenarioService.IScenario" bindingType="basicHttpBinding" address="http://localhost:44841/Services/Scenario.svc" bindingConfiguration="BasicHttpBinding_IScenario">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://localhost/Routing/Services/Scenario.svc</serializedValue>
+          <serializedValue>http://localhost:44841/Services/Scenario.svc</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

@@ -5,6 +5,7 @@ using ReactiveUI;
 using Microsoft.Maps.MapControl;
 using Silverlight.Common.Maps.GeocodeService;
 using Routing.Silverlight.Address_Validation;
+using System.Collections.Generic;
 
 namespace Routing.Silverlight.Models
 {
@@ -170,6 +171,30 @@ namespace Routing.Silverlight.Models
         }
 
    
+    }
+
+    public class Location_Comparer : IEqualityComparer<Location>
+    {
+        //public override bool Equals(object obj)
+        //{
+        //    var other = obj as Location;
+        //    return other != null && Equals(this, other);
+        //}
+
+        //public override int GetHashCode()
+        //{
+        //    return 3* 7* 
+        //}
+
+        public bool Equals(Location x, Location y)
+        {
+            return x.Altitude == y.Altitude && x.Longitude == y.Longitude && x.Latitude == y.Latitude;
+        }
+
+        public int GetHashCode(Location obj)
+        {
+            return 3 + 7 * obj.Altitude.GetHashCode() + 11 * obj.Latitude.GetHashCode() + 13 * obj.Longitude.GetHashCode();
+        }
     }
 
 }

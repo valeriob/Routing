@@ -14,6 +14,8 @@ using Routing.Silverlight.ServiceReferences;
 using Routing.Silverlight.Address_Validation;
 using System.Windows.Controls;
 using Routing.Silverlight.ScenarioService;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Routing.Silverlight.Models
 {
@@ -64,37 +66,6 @@ namespace Routing.Silverlight.Models
             //Validate_All();
         }
 
-        //public void Validate_All()
-        //{
-        //    foreach (var point in Points)
-        //    {
-        //        if (string.IsNullOrEmpty(point.Destination.Display))
-        //            continue;
-
-        //        Find_Location(point.Destination);
-        //    }
-        //}
-
-
-        //protected void Find_Location(Location_Reference point)
-        //{
-        //    var geocoding = maps.ServiceHelper.GetGeocodeService();
-        //    geocoding.GeocodeCompleted += (sender, e) =>
-        //    {
-        //        var correlated = e.UserState as Location_Reference;
-
-        //        if (e.Result.Results.Count == 1)
-        //            Correct_Position(correlated, e.Result.Results.Single());
-        //    };
-
-        //    geocoding.GeocodeAsync(new maps.GeocodeService.GeocodeRequest
-        //    {
-        //        Credentials = new Microsoft.Maps.MapControl.Credentials() { Token = maps.ServiceHelper.GeocodeServiceCredentials },
-        //        Culture = System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
-        //        Query = point.Display
-        //    }, point);
-        //}
-
         protected void Find_Address(Location_Reference location)
         {
             var geocoding = maps.ServiceHelper.GetGeocodeService();
@@ -115,16 +86,6 @@ namespace Routing.Silverlight.Models
             }, location);
         }
 
-        //protected void Correct_Position(Location_Reference point, GeocodeResult result)
-        //{
-            
-        //    point.Location = result.Locations.First();
-        //    point.Search_Address = result.Address.FormattedAddress;
-        //    point.Resolved_Address = result.Address;
-        //    point.Validate();
-        //}
-
-
         public void F2_Destination(LocationViewModel sender, bool silent, string text)
         {
             Action onNoResults = () =>
@@ -137,14 +98,6 @@ namespace Routing.Silverlight.Models
             Action<DestinationDto> onOneResult = (destination) =>
             {
                 sender.Change_Destination(destination.ExternalId, destination.Name, new Location(destination.Latitude, destination.Longitude));
-
-                //sender.Destination = new Location_Reference(new Location(destination.Latitude, destination.Longitude), destination.Name, null);
-
-                //sender.Destination.Name = destination.Name;
-                //sender.Destination.Id = destination.Id;
-                //sender.Destination.ExternalId = destination.ExternalId;
-                //sender.Destination.Validate();
-                //sender.Destination.Location = new Location(destination.Latitude, destination.Longitude);
                 
                 Find_Address(sender.Destination);
             };
@@ -160,41 +113,6 @@ namespace Routing.Silverlight.Models
         }
 
 
-        //public Location_Reference Validating_Location { get; set; }
-        //bool validating;
-        //public void F2_Location(LocationViewModel sender, Panel panel, bool silent, string text)
-        //{
-        //    if (validating)
-        //        return;
-        //    validating = true;
-
-        //    Validating_Location = sender.Destination;
-        //    var validator = new Address_Validation_Helper(panel);
-        //    if(silent)
-        //        validator.Automatically_Validate_Address( text).ContinueWith(c => 
-        //        {
-        //            if (c.IsCanceled || c.Result == null)
-        //                validator.Manually_Validate_Address(text).ContinueWith(v => { Validate(v.Result); });
-        //            else
-        //                Validate(c.Result);
-        //        });
-        //    else
-        //        validator.Manually_Validate_Address(text).ContinueWith(v => { Validate(v.Result); });
-        //}
-
-        //protected void Validate(Address_Validated result)
-        //{
-        //    validating = false;
-        //    if (result == null)
-        //        return;
-        //    System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() =>
-        //    {
-        //        Validating_Location.Location = result.Location;
-        //        Validating_Location.Resolved_Address = result.Address;
-        //        Validating_Location.Search_Address = result.Address.FormattedAddress;
-        //        Validating_Location.Validate();
-        //    });
-        //}
 
 
         public void Carica()
@@ -207,44 +125,124 @@ namespace Routing.Silverlight.Models
         }
         public void Importa()
         {
-            var service = new ScenarioClient();
-            service.Create_ScenarioCompleted += (sender, e) => 
-            { 
-            };
-            var command = new Create_Scenario
+            Calcola_Percorsi_Intermedi().ContinueWith(t => 
             {
-                Scenario = new ScenarioDto
+                var service = new ScenarioClient();
+                service.Create_ScenarioCompleted += (sender, e) =>
                 {
-                    Id = Id, 
-                    Date = DateTime.Now, 
-                    Name = "asd",
-                    UserId = RoutingViewModel.Instance.UserId,
+                    //TODO 
+                };
+                var command = new Create_Scenario
+                {
+                    Scenario = new ScenarioDto
+                    {
+                        Id = Id,
+                        Date = DateTime.Now,
+                        Name = "asd",
+                        UserId = RoutingViewModel.Instance.UserId,
 
-                    Orders = Points.Select(p => new OrderDto 
-                    { 
-                        ExternalId = p.ExternalReference, 
-                        Delivering = p.Shipping, 
-                           
-                        DestinationId = p.Destination.Id,
-                        DestinationExternalId = p.Destination.Id,
+                        Orders = Points.Select(p => new OrderDto
+                        {
+                            ExternalId = p.ExternalReference,
+                            Delivering = p.Shipping,
 
-                        Latitude = p.Destination.Location.Latitude,
-                        Longitude = p.Destination.Location.Longitude, 
-                        Volume = p.Amount.Value, 
-                        Volume_Unit = p.Amount.Unit,
-                        Description="nessuna ", 
-                    
-                        Address = p.Destination.Resolved_Address.FormattedAddress
-                    })
-                    .To_ObservableCollection()
-                }
-            };
-            service.Create_ScenarioAsync(command);
+                            DestinationId = p.Destination.Id,
+                            DestinationExternalId = p.Destination.Id,
+
+                            Latitude = p.Destination.Location.Latitude,
+                            Longitude = p.Destination.Location.Longitude,
+                            Volume = p.Amount.Value,
+                            Volume_Unit = p.Amount.Unit,
+                            Description = "nessuna ",
+
+                            Address = p.Destination.Resolved_Address.FormattedAddress
+                        }) .To_ObservableCollection(),
+
+                        Distances = t.Result.Select(d => new DistanceDto 
+                        { 
+                            From_Latitide= d.From.Latitude, 
+                            From_Longitude = d.From.Longitude, 
+                            To_Latitide = d.To.Latitude, 
+                            To_Longitude = d.To.Longitude,
+
+                            Km= d.Km,
+                            TimeInSeconds = d.TimeInSeconds
+                        }).To_ObservableCollection(),
+                    }
+                };
+
+                service.Create_ScenarioAsync(command);
+            });
+           
         }
+
+        public Task<IEnumerable<DistanzaStimata>> Calcola_Percorsi_Intermedi()
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var tasks = new List<Task<DistanzaStimata>>();
+
+                var punti = Points.Select(p => p.Destination.Location).Distinct(new Location_Comparer()).ToList();
+
+                foreach (var combinazione in new Utilities.Combinatorics.Combinations<Location>(punti, 2))
+                {
+                    var da = combinazione[0];
+                    var a = combinazione[1];
+                    var task = Calcola_Distanza(da, a);
+                    tasks.Add(task);
+                    task.Start();
+                }
+
+                Task.WaitAll(tasks.ToArray());
+                return tasks.Select(t => t.Result);
+            });
+        }
+
+        public Task<DistanzaStimata> Calcola_Distanza(Location da, Location a)
+        {
+            var points = new[] { da, a }.Select(l => new maps.RouteService.Waypoint 
+            { 
+                Location = new maps.RouteService.Location { Latitude = l.Latitude, Longitude = l.Longitude }
+            }).To_ObservableCollection();
+
+            var tcs = new TaskCompletionSource<DistanzaStimata>();
+            
+            var route = maps.ServiceHelper.GetRouteService();
+
+            route.CalculateRouteCompleted += (sender, e) => 
+            {
+                var d = e.UserState as DistanzaStimata;
+                if (e.Error != null || d == null)
+                    tcs.TrySetException(e.Error);
+
+                d.Km = e.Result.Result.Summary.Distance;
+                d.TimeInSeconds = e.Result.Result.Summary.TimeInSeconds;
+                
+                tcs.TrySetResult(d);
+            };
+
+            var request = new maps.RouteService.RouteRequest
+            {
+                Credentials = new maps.RouteService.Credentials() { Token = maps.ServiceHelper.GeocodeServiceCredentials },
+                Culture = System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
+                Options = new maps.RouteService.RouteOptions { Optimization = maps.RouteService.RouteOptimization.MinimizeDistance },
+                Waypoints = points
+            };
+
+            route.CalculateRouteAsync(request, new DistanzaStimata { From= da, To = a });
+  
+            return tcs.Task;
+        }
+
     }
 
+    public class DistanzaStimata
+    {
+        public Location From { get; set; }
+        public Location To { get; set; }
 
-
-
+        public double Km { get; set; }
+        public long TimeInSeconds { get; set; }
+    }
    
 }

@@ -34,7 +34,8 @@ namespace Routing.Domain.Services
             }
 
             var scenarioDto = cmd.Scenario;
-            // Aggiornamento anafrafiche?
+
+            // Aggiornamento anafrafiche?, da rivedere
    
             var destinationIds = scenarioDto.Orders.Select(o=> o.DestinationId);
             var destinations = DocumentSession.Advanced.LuceneQuery<Destination>().WhereIn("Id", destinationIds).ToList();
@@ -43,21 +44,17 @@ namespace Routing.Domain.Services
             {
                 if (order.DestinationExternalId.IsNullOrEmpty())
                     continue;
-                //var destination = destinations.SingleOrDefault(d => d.Id == order.DestinationId);
-                //if (destination == null)
-                //{
-                    var destination = new Destination
-                    {
-                        Id = order.DestinationId,
-                        Name = "None",
-                        ExternalId = order.DestinationExternalId,
-                        UserId = scenarioDto.UserId,
-                        Location = new Location(order.Latitude, order.Longitude),
-                        Address = Address.Parse(order.Address),
-                    };
-                    DocumentSession.Store(destination);
-                    destinations.Add(destination);
-               // }
+                var destination = new Destination
+                {
+                    Id = order.DestinationId,
+                    Name = "None",
+                    ExternalId = order.DestinationExternalId,
+                    UserId = scenarioDto.UserId,
+                    Location = new Location(order.Latitude, order.Longitude),
+                    Address = Address.Parse(order.Address),
+                };
+                //DocumentSession.Store(destination);
+                destinations.Add(destination);
             }
 
 
@@ -77,15 +74,20 @@ namespace Routing.Domain.Services
                     Weight = new Quantity(o.Weight, new Unit(o.Weight_Unit)), 
                     Location = new Location(o.Latitude, o.Longitude), 
                     Address = Address.Parse(o.Address),
-                }).ToList()
-            };
+                }).ToList(),
 
-            //if (scenarioDto.Id.IsNullOrEmpty())
-            //    scenarioDto.Id = Guid.NewGuid().ToString();
+                Distances = scenarioDto.Distances.Select(d=> new Distance
+                {
+                    From = new Location(d.From_Latitide, d.From_Longitude), 
+                    To = new Location(d.To_Latitide, d.To_Longitude), 
+                    Km = d.Km, 
+                    Time= TimeSpan.FromSeconds(d.TimeInSeconds)
+                }).ToList(),
+
+            };
 
             DocumentSession.Store(scenario);
 
-            //Bus.Publish(new Scenario_Created { ScenarioId = scenarioDto.Id });
             DocumentSession.SaveChanges();
         }
 

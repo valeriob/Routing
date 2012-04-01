@@ -14,6 +14,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Routing.Domain.Test", "Routing.Domain.Test\Routing.Domain.Test.csproj", "{438889BB-A3FF-460F-B3A2-CCB24E3023B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Routing.Silverlight", "Routing.Silverlight\Routing.Silverlight.csproj", "{7B39B786-81AA-4C0B-BF00-AC946E43C9DD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0A46AF7B-88C5-4D6E-8C21-077A9CB7A86B} = {0A46AF7B-88C5-4D6E-8C21-077A9CB7A86B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silverlight.Common", "Silverlight.Common\Silverlight.Common.csproj", "{A819237E-C1D6-4B53-8BE7-ECDEA13BF51C}"
 EndProject
