@@ -1,0 +1,12 @@
+
+Pagamento :
+http://home.plimus.com/ecommerce/developers/buy-anyware-api
+www.shareit.com
+www.regnow.com
+
+VRP: Clark & Wright or Sweep algorithm
+
+VRPTW:
+http://www.uaem.mx/posgrado/mcruz/paper4.pdf
+http://www.uaem.mx/posgrado/mcruz/paper22.pdf
+http://www.sc.ehu.es/acwaldap/ald.eng/PhDThesis/ArbelaitzPhdPublications/00.JCIS.pdf

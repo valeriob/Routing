@@ -1,0 +1,86 @@
+﻿@model Routing.Web.Models.Scenario.Search_Scenario_ViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="@Url.Content("~/Scripts/knockout.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/knockout.mapping-latest.js")" type="text/javascript"></script>
+
+<script src="@Url.Content("~/Scripts/linq.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/linq-vsdoc.js")" type="text/javascript"></script>
+
+<h2>Index</h2>
+
+<table >
+    <thead>
+        <tr>
+            <th><a href="javascript:OrderBy('Id')">Id</a></th>
+            <th><a href="javascript:OrderBy('Name')">Name</a></th>
+            <th><a href="javascript:OrderBy('Address')">Address</a></th>
+        </tr>
+    </thead>
+    <tbody data-bind='foreach: clients'>
+        <tr>
+             <td> <a data-bind="attr: {href: '/' + Id()}, text:Id" ></a>
+            </td>
+            <td data-bind="text: Name"></td>
+            <td data-bind="text: Address"></td>
+        </tr>
+    </tbody>
+</table>
+
+<button data-bind='click: Prev'>
+    Prev
+</button>
+
+<button data-bind='click: Next'>
+    Next
+</button>
+ 
+
+  <script type='text/javascript'>
+      var viewModel = {};
+      viewModel.clients = ko.observableArray();
+
+      viewModel.Prev = function () {
+    
+          SearchClients.PageIndex = Math.max(SearchClients.PageIndex - 1, 0);
+          Search();
+      };
+      viewModel.Next = function () {
+          SearchClients.PageIndex += 1;
+          Search();
+      };
+
+      function ToggleOrderBy(property) {
+          Reset();
+
+          var desc = false;
+          OrderBy(property, desc);
+      }
+      function OrderBy(property, desc) {
+          SearchClients.OrderBy = property;
+          SearchClients.Descending = desc;
+          Search();
+      }
+
+      var SearchClients = {};
+      SearchClients.PageIndex = 0;
+      SearchClients.PageSize = 1;
+      SearchClients.OrderBy = "";
+      SearchClients.Descending = false;
+      SearchClients.Reset = function () { this.PageIndex = 0; this.PageSize = 10; };
+
+      function Search() {
+          $.getJSON('Search', SearchClients, function (result) {
+              viewModel.clients.removeAll();
+              for (var i in result)
+                  viewModel.clients.push(ko.mapping.fromJS(result[i]));
+          });
+      }
+      ko.applyBindings(viewModel);
+      Search();
+
+
+        </script>
