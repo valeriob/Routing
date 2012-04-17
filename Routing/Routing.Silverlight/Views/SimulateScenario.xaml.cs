@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using Routing.Silverlight.Models;
 using System.Collections.Specialized;
 using Microsoft.Maps.MapControl;
+using Routing.Silverlight.Models.SimulateScenario;
 
 namespace Routing.Silverlight.Views
 {
@@ -58,22 +59,7 @@ namespace Routing.Silverlight.Views
                 }
             }
         }
-        /*
-        Color routeColor = Colors.Blue;
-        SolidColorBrush routeBrush = new SolidColorBrush(routeColor);
-        outString = "Found route ... coloring route";
-        ToOutput.Foreground = routeBrush;
-        MapPolyline routeLine = new MapPolyline();
-        routeLine.Locations = new LocationCollection();
-        routeLine.Stroke = routeBrush;
-        routeLine.Opacity = 0.65;
-        routeLine.StrokeThickness = 5.0;
-        foreach (Location p in e.Result.Result.RoutePath.Points)
-        {
-            routeLine.Locations.Add(new Location(p.Latitude, p.Longitude));
-        }
-        RouteLayer.Children.Add(routeLine);
-         */
+
         protected MapLayer Build_Layer_For_Route(RouteViewModel route)
         {
             var layer = new MapLayer ();
@@ -84,12 +70,10 @@ namespace Routing.Silverlight.Views
             routeLine.Stroke = routeBrush;
             routeLine.Opacity = 0.65;
             routeLine.StrokeThickness = 5.0;
-            foreach (var p in route.Locations)
-            {
-                routeLine.Locations.Add(new Location(p.Location.Latitude, p.Location.Longitude));
-            }
-            layer.Children.Add(routeLine);
 
+            foreach (var p in route.Locations)
+                routeLine.Locations.Add(new Location(p.Location.Latitude, p.Location.Longitude));
+            layer.Children.Add(routeLine);
 
 
             foreach (var location in route.Locations)
@@ -122,32 +106,5 @@ namespace Routing.Silverlight.Views
 
     }
 
-    public static class UriExtensions
-    {
-        public static string GetValue(this Uri uri, string parameterName)
-        {
-            try
-            {
-                string query = null;
-                if (uri.IsAbsoluteUri)
-                    query = uri.Query;
-                else
-                    query = uri.ToString().Split('?')[1];
-
-                foreach (var parameter in query.Split('&'))
-                {
-                    var tokens = parameter.Split('=');
-                    var name = tokens[0];
-                    var value = tokens[1];
-                    if (name == parameterName)
-                        return value;
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-            return "";
-        }
-    }
+   
 }

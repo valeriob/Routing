@@ -29,7 +29,7 @@ namespace Routing.Domain.ReadModel
                 Date = scenario.Date,
                 Name = scenario.Name,
                 UserId = scenario.UserId,
-                Orders = scenario.Orders.Select(o => new OrderDto 
+                Deliveries = scenario.Deliveries.Select(o => new DeliveryDto 
                 { 
                    Number = o.Number, 
                    Latitude = o.Location.Latitude, 

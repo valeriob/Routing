@@ -8,6 +8,11 @@ namespace Routing.Domain.Aggregates
 {
     public class Simulation
     {
+        public Simulation()
+        {
+            _Voyages = new List<Voyage>();
+        }
+
         public int Number { get; set; }
         public string Name { get; set; }
 
@@ -19,7 +24,13 @@ namespace Routing.Domain.Aggregates
 
         //public DenormalizedReference<Scenario> Scenario { get; set; }
 
+        protected List<Voyage> _Voyages;
         public IEnumerable<Voyage> Voyages { get; set; }
+
+        public void Append_Voyage(Voyage voyage)
+        {
+            _Voyages.Add(voyage);
+        }
     }
 
 }

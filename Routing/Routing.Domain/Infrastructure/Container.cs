@@ -19,7 +19,7 @@ namespace Routing.Domain.Infrastructure
         {
             get 
             { 
-                return _Instance ??(_Instance = Init_Container());
+                return _Instance ?? (_Instance = Init_Container());
             }
         }
 
@@ -27,6 +27,24 @@ namespace Routing.Domain.Infrastructure
         {
             var builder = new ContainerBuilder();
 
+            builder.Register(c => c.Resolve<IDocumentStore>().OpenSession()).InstancePerLifetimeScope();
+
+            builder.RegisterType<SimulationService>();
+            builder.RegisterType<RegistrationService>();
+            builder.RegisterType<ScenarioService>();
+
+            builder.RegisterType<References_ReadModel>();
+            builder.RegisterType<Scenario_ReadModel>();
+            //builder.RegisterType<Simulation_ReadModel>();
+
+            var container = builder.Build();
+
+            return container;
+        }
+
+
+        public static ContainerBuilder Configure_Raven(ContainerBuilder builder)
+        {
             var documentStore = new DocumentStore
             {
                 ConnectionStringName = "Routing_Test",
@@ -56,40 +74,41 @@ namespace Routing.Domain.Infrastructure
 
             IndexCreation.CreateIndexes(typeof(Destination_ByLocation).Assembly, documentStore);
 
-            builder.RegisterInstance(documentStore);
 
-            builder.Register(c => c.Resolve<DocumentStore>().OpenSession()).InstancePerLifetimeScope();
+            //var builder = new ContainerBuilder();
+            builder.RegisterInstance(documentStore).As<IDocumentStore>();
+            //builder.Update(builder);
 
-            builder.RegisterType<SimulationService>();
-            builder.RegisterType<RegistrationService>();
-            builder.RegisterType<ScenarioService>();
-
-            builder.RegisterType<References_ReadModel>();
-            builder.RegisterType<Scenario_ReadModel>();
-            //builder.RegisterType<Simulation_ReadModel>();
-
-            var ioc = builder.Build();
-
-           //var configure = Configure.With()
-           //var configure = Configure.WithWeb()
-           //     .DefineEndpointName("NServiceBus3Test_MessageQueue")
-           //        .DefiningEventsAs(t => t.Namespace != null && t.Namespace.EndsWith("Events"))
-           //        .DefiningCommandsAs(t => t.Namespace != null && t.Namespace.EndsWith("Commands"))
-           //     .DefiningMessagesAs(t => t.Namespace != null && t.Namespace == "Messages")
-           // .AutofacBuilder(ioc)
-           // .InMemorySubscriptionStorage()
-           // .XmlSerializer();
-
-           // var bus = configure.MsmqTransport().IsTransactional(true)
-           //     .UnicastBus()
-           //     .LoadMessageHandlers()
-           //     .CreateBus()
-           //     .Start(() =>
-           //     {
-           //         Configure.Instance.ForInstallationOn<NServiceBus.Installation.Environments.Windows>().Install();
-           //     });
-
-            return ioc;
+            return builder;
         }
+
+        public static IContainer Configure_NServiceBus(IContainer container)
+        {
+          //  var configure = Configure.With()
+
+            //var configure = Configure.WithWeb()
+            //     .DefineEndpointName("NServiceBus3Test_MessageQueue")
+            //        .DefiningEventsAs(t => t.Namespace != null && t.Namespace.EndsWith("Events"))
+            //        .DefiningCommandsAs(t => t.Namespace != null && t.Namespace.EndsWith("Commands"))
+            //     .DefiningMessagesAs(t => t.Namespace != null && t.Namespace == "Messages")
+            // .AutofacBuilder(ioc)
+            // .InMemorySubscriptionStorage()
+            // .XmlSerializer();
+
+            // var bus = configure.MsmqTransport().IsTransactional(true)
+            //     .UnicastBus()
+            //     .LoadMessageHandlers()
+            //     .CreateBus()
+            //     .Start(() =>
+            //     {
+            //         Configure.Instance.ForInstallationOn<NServiceBus.Installation.Environments.Windows>().Install();
+            //     });
+
+             return container;
+        }
+
     }
+            
+            
+
 }

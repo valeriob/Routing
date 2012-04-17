@@ -11,7 +11,7 @@ namespace Routing.Domain.Aggregates
     {
         public Scenario()
         {
-         
+            _Simulations = new List<Simulation>();
         }
 
         public string Id { get; set; }
@@ -26,8 +26,8 @@ namespace Routing.Domain.Aggregates
         public DateTime? Deleted { get; protected set; }
         public DateTime Date { get; set; }
 
-        protected List<Order> _Orders;
-        public IEnumerable<Order> Orders { get { return _Orders ?? (_Orders = new List<Order>()); } set { _Orders = value as List<Order>; } }
+        protected List<Delivery> _Deliveries;
+        public IEnumerable<Delivery> Deliveries { get { return _Deliveries ?? (_Deliveries = new List<Delivery>()); } set { _Deliveries = value as List<Delivery>; } }
 
         public IEnumerable<Distance> Distances { get; set; }
 
@@ -40,6 +40,11 @@ namespace Routing.Domain.Aggregates
             Deleted = DateTime.Now;
         }
 
+        public void Append_Simulation(Simulation simulation)
+        {
+            simulation.Number = _Simulations.Select(s=> s.Number).DefaultIfEmpty(0).Max() + 1;
+            _Simulations.Add(simulation);
+        }
 
         
 

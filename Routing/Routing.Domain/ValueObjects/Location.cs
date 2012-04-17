@@ -22,15 +22,32 @@ namespace Routing.Domain.ValueObjects
             Longitude = longitude;
         }
 
+
+        public static bool operator ==(Location c1, Location c2)
+        {
+            return !object.ReferenceEquals(c1, null) && !object.ReferenceEquals(c2, null) && c1.Equals(c2);
+        }
+
+        public static bool operator !=(Location c1, Location c2)
+        {
+            return object.ReferenceEquals(c1, null) || object.ReferenceEquals(c2, null) || !c1.Equals(c2);
+        }
+
+
         public override bool Equals(object obj)
         {
             var other = obj as Location;
-            return other != null && other.Latitude == Latitude && other.Longitude == Longitude && other.Approximation == Approximation;
+            return !object.ReferenceEquals(other, null) && other.Latitude == Latitude && other.Longitude == Longitude && other.Approximation == Approximation;
         }
 
         public override int GetHashCode()
         {
             return 37 * Latitude.GetHashCode() + 17 * Longitude.GetHashCode() + 31 * Approximation.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Lat : {0}, Lon : {1}", Latitude, Longitude);
         }
 
     }

@@ -26,5 +26,39 @@ namespace System.Collection.ObjectModel
             foreach (var item in source)
                 collection.Add(item);
         }
+
+      
+    }
+}
+
+
+namespace System
+{
+    public static class UriExtensions
+    {
+        public static string GetValue(this Uri uri, string parameterName)
+        {
+            try
+            {
+                string query = null;
+                if (uri.IsAbsoluteUri)
+                    query = uri.Query;
+                else
+                    query = uri.ToString().Split('?')[1];
+
+                foreach (var parameter in query.Split('&'))
+                {
+                    var tokens = parameter.Split('=');
+                    var name = tokens[0];
+                    var value = tokens[1];
+                    if (name == parameterName)
+                        return value;
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return "";
+        }
     }
 }

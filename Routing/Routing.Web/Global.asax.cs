@@ -10,6 +10,7 @@ using Autofac.Integration.Mvc;
 using System.Reflection;
 using Routing.Web.Services;
 using Autofac.Integration.Wcf;
+using System.Web.Optimization;
 
 namespace Routing.Web
 {
@@ -38,8 +39,12 @@ namespace Routing.Web
         protected void Application_Start()
         {
             var container = Container.Instance;
+    
 
-            var builder = new ContainerBuilder(); 
+            var builder = new ContainerBuilder();
+
+            Container.Configure_Raven(builder);
+
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             
             // http://code.google.com/p/autofac/wiki/Mvc3Integration
@@ -58,6 +63,7 @@ namespace Routing.Web
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+            BundleTable.Bundles.RegisterTemplateBundles();
         }
     }
 }

@@ -136,7 +136,8 @@
     <Compile Include="Helpers\Use_Case_Manager.cs" />
     <Compile Include="Models\Amount.cs" />
     <Compile Include="Models\BingRouteCalculator.cs" />
-    <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\CreateScenario\Route_Request_Builder.cs" />
+    <Compile Include="Models\CreateScenario\LocationViewModel.cs" />
     <Compile Include="Models\Reference.cs" />
     <Compile Include="Models\References\SearchScenarioViewModel.cs" />
     <Compile Include="Models\References\DestinationSearchViewModel.cs" />
@@ -144,9 +145,9 @@
     <Compile Include="Models\References\SearchViewModel.cs" />
     <Content Include="Models\route.css" />
     <Compile Include="Models\RoutingViewModel.cs" />
-    <Compile Include="Models\ScenarioViewModel.cs" />
-    <Compile Include="Models\SimulateScenarioViewModel.cs" />
-    <Compile Include="Models\RouteViewModel.cs" />
+    <Compile Include="Models\CreateScenario\CreateScenarioViewModel.cs" />
+    <Compile Include="Models\SimulateScenario\SimulateScenarioViewModel.cs" />
+    <Compile Include="Models\SimulateScenario\RouteViewModel.cs" />
     <Compile Include="References\Scenarios.xaml.cs">
       <DependentUpon>Scenarios.xaml</DependentUpon>
     </Compile>
@@ -359,6 +360,7 @@
       <Name>Silverlight.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

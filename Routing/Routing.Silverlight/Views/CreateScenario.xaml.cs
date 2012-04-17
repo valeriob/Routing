@@ -17,19 +17,21 @@ using Routing.Silverlight.Controls;
 using ReactiveUI;
 using Routing.Silverlight.Address_Validation;
 using System.Diagnostics;
+using Routing.Silverlight.Models.CreateScenario;
 
 namespace Routing.Silverlight.Views
 {
     public partial class CreateScenario : Page
     {
-        ScenarioViewModel ViewModel;
+        CreateScenarioViewModel ViewModel;
 
         public CreateScenario()
         {
             InitializeComponent();
 
-            DataContext = ViewModel = new ScenarioViewModel();
+            DataContext = ViewModel = new CreateScenarioViewModel();
         }
+
 
         private void Search_Address_TextChanged(object sender, global::Silverlight.Common.Controls.TextChangedEventArgs e)
         {
@@ -37,16 +39,11 @@ namespace Routing.Silverlight.Views
             var padri = control.GetVisualAncestors().ToList();
 
             var point = (sender as Control).DataContext as LocationViewModel;
-            //if (point.Destination.IsValid && e.IsSilent)
-            //    return;
-            //ViewModel.F2_Location(point, popupAncor, e.IsSilent, e.Text);
 
             var helper = new Address_Validation_Helper(point.Destination, popupAncor);
             helper.Validate_Address(e.IsSilent, e.Text).ContinueWith(d => 
             {
-                System.Windows.Deployment.Current.Dispatcher.BeginInvoke(() => { 
-                    point.Change_Destination(d.Result);
-                });
+                Deployment.Current.Dispatcher.BeginInvoke(() =>  point.Change_Destination(d.Result) );
             });
         }
 
@@ -66,6 +63,11 @@ namespace Routing.Silverlight.Views
         private void Import_Button_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.Importa();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Test_Calcolo_Distanze();
         }
  
 

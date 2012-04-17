@@ -36,9 +36,10 @@ namespace Routing.Web.Services
             return ReadModel.Get_Scenario(id);
         }
 
-        //public SimulationDto Get_Simulation(string scenarioId, int number)
-        //{
-        //    return ReadModel.Get_Simulation(scenarioId, number);
-        //}
+        public void Execute_Simulation(Execute_Simulation cmd)
+        {
+            Service.Execute_Simulation(cmd);
+        }
+
     }
 }

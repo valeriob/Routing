@@ -79,7 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregates\Scenario\Distance.cs" />
-    <Compile Include="Aggregates\Scenario\Order.cs" />
+    <Compile Include="Aggregates\Scenario\Delivery.cs" />
     <Compile Include="Aggregates\Scenario\Voyage.cs" />
     <Compile Include="Aggregates\User\Identity.cs" />
     <Compile Include="Aggregates\User\User.cs" />
@@ -90,14 +90,15 @@
     <Compile Include="Aggregates\Scenario\Simulation.cs" />
     <Compile Include="Aggregates\Vehicle\Vehicle.cs" />
     <Compile Include="Dto\Abstracts\AbstractSimulationDto.cs" />
+    <Compile Include="Dto\Command\Execute_Simulation.cs" />
     <Compile Include="Dto\DestinationDto.cs" />
-    <Compile Include="Dto\Command\Update_Scenario.cs" />
+    <Compile Include="Dto\Command\Create_Scenario.cs" />
     <Compile Include="Dto\Command\Register_New_User.cs" />
     <Compile Include="Dto\DistanceDto.cs" />
     <Compile Include="Dto\Events\Scenario_Deleted.cs" />
     <Compile Include="Dto\Events\Scenario_Created.cs" />
     <Compile Include="Dto\Extensions.cs" />
-    <Compile Include="Dto\OrderDto.cs" />
+    <Compile Include="Dto\DeliveryDto.cs" />
     <Compile Include="Dto\QuantityDto.cs" />
     <Compile Include="Dto\Query\SearchSimulations.cs" />
     <Compile Include="Dto\Query\SearchScenarios.cs" />
@@ -108,6 +109,9 @@
     <Compile Include="Dto\SimulationDto.cs" />
     <Compile Include="Dto\Validation\IValidate.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Geocoding\Bing.cs" />
+    <Compile Include="Geocoding\GeocodingService.cs" />
+    <Compile Include="Geocoding\Google.cs" />
     <Compile Include="IAggregateRoot.cs" />
     <Compile Include="Infrastructure\Container.cs" />
     <Compile Include="Infrastructure\Data\Indexes.cs" />
@@ -117,6 +121,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadModel\Scenario_ReadModel.cs" />
     <Compile Include="ReadModel\References_ReadModel.cs" />
+    <Compile Include="Services\Algorithm_Random.cs" />
+    <Compile Include="Services\Routing_Algorithm.cs" />
+    <Compile Include="Services\Algorithm_Dummy.cs" />
+    <Compile Include="Services\Sweep.cs" />
+    <Compile Include="Services\Clark_Wright.cs" />
     <Compile Include="Services\Registration.cs" />
     <Compile Include="Services\Scenario.cs" />
     <Compile Include="Services\Simulation.cs" />

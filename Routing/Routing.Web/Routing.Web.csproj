@@ -142,11 +142,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Default1Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MapApiController.cs" />
+    <Compile Include="Controllers\ScenarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Scenario\Nuovo_Scenario_ViewModel.cs" />
+    <Compile Include="Models\Scenario\Search_Scenario_ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Services\AuthorizationPolicy.cs_" />
     <Compile Include="Services\IReferences.cs" />
@@ -161,6 +166,12 @@
     <Compile Include="Services\Service.svc.cs">
       <DependentUpon>Service.svc</DependentUpon>
     </Compile>
+    <Content Include="Scripts\knockout.debug.js" />
+    <Content Include="Scripts\knockout.js" />
+    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
+    <Content Include="Scripts\knockout.mapping-latest.js" />
+    <Content Include="Views\Scenario\Nuovo_Scenario.cshtml" />
+    <Content Include="Views\Scenario\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientBin\Routing.Silverlight.xap" />
@@ -207,8 +218,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-2.0.0.debug.js" />
-    <Content Include="Scripts\knockout-2.0.0.js" />
     <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
     <Content Include="Services\References.svc" />
     <Content Include="Services\Scenario.svc" />
