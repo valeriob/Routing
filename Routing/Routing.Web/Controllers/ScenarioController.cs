@@ -20,7 +20,7 @@ namespace Routing.Web.Controllers
             References_ReadModel = _References_ReadModel;
         }
         //
-        // GET: /Scenario/
+        // GET : /Scenario/ 
 
         public ActionResult Index(int? page, int? pageSize)
         {
